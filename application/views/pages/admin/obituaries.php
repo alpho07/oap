@@ -139,6 +139,7 @@
                                                         <td ><?php echo $i; ?></td>
                                                         <td><input style="display: inline-table !important" type="checkbox" value=""/></td>
                                                         <td style="width:80px !important;"><img src="<?php echo base_url() . $ad->image_path; ?>" alt="Ad Image" width="79px" height="50px;"/></td>
+                                                        
                                                         <td><?php echo $ad->title; ?></td>
                                                         <td><?php echo $ad->name; ?></td>
                                                         <td><?php echo $ad->date_posted; ?></td>

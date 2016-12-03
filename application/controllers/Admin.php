@@ -19,7 +19,7 @@ class Admin extends MY_Controller {
         $data['content'] = 'pages/admindashboard';
         $data['ptitle'] = "Admin -> Dashboard";
         $data['title'] = "Admin Dashboard";
-        $data['ads'] = $this->_API->getAllUserAds();
+        $data['ads'] = $this->_API->getUsers();
         $data['messages']=  $this->_API->loadMessages();
         $data['mcount']=  $this->_API->unreadMessages();
         $this->load->view('pages/admin/admindashboard', $data);
@@ -27,7 +27,7 @@ class Admin extends MY_Controller {
        public function reports() {
         $data['ptitle'] = "Admin -> Dashboard -> Reported Ads";
         $data['title'] = "Admin Dashboard - Reports";
-        $data['ads'] = $this->_API->getAllUserAds();
+        $data['ads'] = $this->_API->getReportedAds();
         $data['messages']=  $this->_API->loadMessages();
         $data['mcount']=  $this->_API->unreadMessages();
         $this->load->view('pages/admin/reports', $data);
@@ -35,7 +35,7 @@ class Admin extends MY_Controller {
        public function ads() {
         $data['ptitle'] = "Admin -> Dashboard ->Normal Ads";
         $data['title'] = "Admin Dashboard -> Normal Ads";
-        $data['ads'] = $this->_API->getAllUserAds();
+        $data['ads'] = $this->_API->getAllUserAdsAdmin();
         $data['messages']=  $this->_API->loadMessages();
         $data['mcount']=  $this->_API->unreadMessages();
         $this->load->view('pages/admin/normal_ads', $data);
@@ -43,7 +43,7 @@ class Admin extends MY_Controller {
        public function obituaries() {
         $data['ptitle'] = "Admin -> Dashboard ->Obituaries";
         $data['title'] = "Admin Dashboard - Obituaries";
-        $data['ads'] = $this->_API->getAllUserAds();
+        $data['ads'] = $this->_API->getAllUserObsAdmin();
         $data['messages']=  $this->_API->loadMessages();
         $data['mcount']=  $this->_API->unreadMessages();
         $this->load->view('pages/admin/obituaries', $data);
@@ -59,7 +59,7 @@ class Admin extends MY_Controller {
        public function payments() {
         $data['ptitle'] = "Admin -> Dashboard -> Payments";
         $data['title'] = "Admin Dashboard - Payments";
-        $data['ads'] = $this->_API->getAllUserAds();
+        $data['ads'] = $this->_API->getPayments();
         $data['messages']=  $this->_API->loadMessages();
         $data['mcount']=  $this->_API->unreadMessages();
         $this->load->view('pages/admin/payments', $data);
