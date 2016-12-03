@@ -53,7 +53,7 @@ class API extends CI_Model {
     function getAllUserObsAdmin() {
         return $this->db->query("SELECT ad.*, c.name , u.name as user,  u.id uid
               FROM obituary ad 
-              INNER JOIN category c ON c.id=ad.category 
+              INNER JOIN categories c ON c.id=ad.category 
               INNER JOIN users u ON ad.user_id = u.id
               ORDER BY ad.id DESC
               ")->result();
