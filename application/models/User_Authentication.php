@@ -63,7 +63,8 @@ class User_authentication extends CI_Model {
                     'user_id' => $u_avail[0]->id,                   
                     'phone' => $u_avail[0]->phone,
                     'email' => $u_avail[0]->email,
-                    'status' => $u_avail[0]->status                    
+                    'status' => $u_avail[0]->status, 
+                    'type'=>$u_avail[0]->user_type
                 );
                 $this->session->set_userdata($session_db);
 
@@ -88,7 +89,8 @@ class User_authentication extends CI_Model {
                     'user_id' => $u_avail[0]->id,                   
                     'phone' => $u_avail[0]->phone,
                     'email' => $u_avail[0]->email,
-                    'status' => $u_avail[0]->status                    
+                    'status' => $u_avail[0]->status, 
+                     'type'=>$u_avail[0]->user_type
                 );
                 $this->session->set_userdata($session_db);
                 echo 'success';

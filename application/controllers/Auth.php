@@ -28,7 +28,7 @@ class Auth extends MY_Controller {
       function authorize(){      
         
         $data['page'] = 'content/front/login';
-        $this->TemplateBuilder($data);  
+        $this->load->view('pages/login',$data);
     }
     
        function loginCheckout($mode){

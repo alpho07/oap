@@ -4408,9 +4408,7 @@ input[type="reset"]:hover{
 	color:#fff;	
 }
 
-input[type="radio"], input[type="checkbox"]{
-	margin-right:5px;	
-}
+
 
 #back-to-top{
 	width:50px;
@@ -4470,9 +4468,7 @@ input[type=radio]:checked + .radio-label:before {
     line-height: 14px;
 }
 
-input[type="checkbox"]{
-	display:none;
-}
+
 
 input[type="checkbox"]+label{
 	display: inline-block;

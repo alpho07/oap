@@ -5,6 +5,23 @@
     <head>
         <title><?php echo $info[0]->title; ?></title>
         <?php $this->load->view('partials/header'); ?>
+        <style type="text/css">
+            .error{
+                padding: 0em !important;
+                margin: 0px !important;
+                color:red !important;
+                font-weight: normal !important;
+                border: red !important;
+                -webkit-border: red !important;
+            }
+            div.error{
+                display:none !important;
+            }
+            input.error,select.error,textArea.error {
+                border: 1px solid red !important ;
+            }
+           
+        </style>
 
     </head>
 
@@ -45,22 +62,25 @@
 
                                 <img width="425" height="350" src="<?php echo base_url() . $info[0]->image_path; ?>" />
                                 <div class="row" style="margin-top: 20px;">
-                                    <span class="well "><?php echo '<strong>' . $info[0]->region . '</strong>'; ?> &#187 <?php $date = new DateTime($info[0]->date_posted);
-            echo $date->format('jS F Y  ');
-            ?> &#187 <?php echo '<strong>Ad ID</strong>: ' . $info[0]->id; ?></span>
-                                    <div class="well col-lg-12">
+                                    <span class="well " style="border-bottom: none;"><?php echo '<strong>' . $info[0]->region . '</strong>'; ?> &#187 <?php
+                                        $date = new DateTime($info[0]->date_posted);
+                                        echo $date->format('jS F Y  ');
+                                        ?> &#187 <?php echo '<strong>Ad ID</strong>: ' . $info[0]->id; ?></span>
+                                    <div class="well col-lg-12" style="border-top: none;">
 <?php echo $info[0]->description; ?>
                                     </div>
                                 </div>
 
-                                <p><a href=""><i class="fa fa-heart-o "></i> Mark as favourite</a> | <a href=""><i class="fa fa-print "></i> Print</a> |  <?php if($this->session->userdata('user_id')==TRUE && $ver > 0){?>
-                                    <a href="<?php echo base_url().'home/edits/'.$info[0]->id.'/'.  str_replace(" ", "-", $info[0]->title);?>" class="btn btn-success" style="margin: 20px;"><i class="fa fa-edit"></i> Edit
-            <?php }else{ echo '';}?>  </a></p>
+                                <p><a href=""><i class="fa fa-heart-o "></i> Mark as favourite</a> | <a href=""><i class="fa fa-print "></i> Print</a> |  <?php if ($this->session->userdata('user_id') == TRUE && $ver > 0) { ?>
+                                        <a href="<?php echo base_url() . 'home/edits/' . $info[0]->id . '/' . str_replace(" ", "-", $info[0]->title); ?>" class="btn btn-success" style="margin: 20px;"><i class="fa fa-edit"></i> Edit
+<?php } else {
+    echo '';
+} ?>  </a></p>
                             </div>
 
                         </div>
-                        
-                        
+
+
 
 
                         <div class="col-lg-5 col-md-5 col-sm-5">
@@ -77,7 +97,9 @@
                                 <i class="icons icon-phone-outline"></i>
                             </div>
                         </div>
-
+                        <div class="col-lg-5 col-md-5 col-sm-5 success-message" style="display:none;">
+                            <div class=" alert-success" style="padding: 10px; border: 1px solid; border-radius: 2px;"><i class="fa fa-info-circle" ></i> Message received, thank you!</div> 
+                        </div>
                         <div class="col-lg-5 col-md-5 col-sm-5 ad_message">
 
                             <div class="carousel-heading no-margin">
@@ -86,75 +108,76 @@
 
                             <div class="page-content contact-form card">
 
-                                <form id="contact-form" action="php/contact.php">
+                                <form id="smart-form-message">
 
 
-                                    <input name="contact-name" type="text" required placeholder="Name">
+                                    <input name="name" type="text" id="name" required placeholder="Name">
+                                     <input name="ad_id" type="hidden" value="<?php echo $info[0]->id;?>">
 
 
-                                    <input name="contact-email" type="email" placeholder="Email" required>
+                                    <input name="email" id="email" type="email" placeholder="Email" required>
 
                                     <label>Subject</label>
-                                    <input name="contact-subject" type="text" readonly value="<?php echo $info[0]->title; ?>">
+                                    <input name="subject" type="text"  id="subject" readonly value="<?php echo $info[0]->title; ?>">
 
 
-                                    <textarea name="contact-message" required placeholder="Type Message here..."></textarea>
+                                    <textarea name="message" id="message" required placeholder="Type Message here..."></textarea>
 
                                     <input class="big" type="submit" value="Send Message">
 
                                 </form>
 
                             </div>
-                            <button class="btn btn-danger btn-lg btn-block " style="margin-bottom: 20px;"><i class="fa fa-bullhorn"></i> Report this Ad</button>
+                            <button class="btn btn-danger btn-lg btn-block reporterButton" style="margin-bottom: 20px;"><i class="fa fa-bullhorn"></i> Report this Ad</button>
                         </div>
-                        
-                         <div class="col-lg-5 col-md-5 col-sm-5 add_report">
+
+                        <div class="col-lg-5 col-md-5 col-sm-5 add_report " style="display: none;">
 
                             <div class="carousel-heading no-margin">
                                 <h4>Report Ad</h4>
                             </div>
-                             
+
 
                             <div class="page-content contact-form card">
-                                
+
                                 <br>
-                             <p><a class="btn btn-success btn-block" href="" ><i class="fa fa-exclamation-triangle"></i> My Safety Precautions</a></a></p>
+                                <p><a class="btn btn-success btn-block" href="" ><i class="fa fa-exclamation-triangle"></i> My Safety Precautions</a></a></p>
 
-                                <form id="contact-form" action="php/contact.php">
+                                <form id="smart-form-report">
 
 
-                                    <input name="report-name" type="text" required placeholder="Name">
-<br>
-<br>
-                              
+                                    <input name="rname" id="rname" type="text" required placeholder="Name">
+                                    <input name="ad_id" type="hidden" value="<?php echo $info[0]->id;?>">
+                                    <br>
 
-                                    <input name="report-email" type="email" placeholder="Email" required>
-                                                                    <br>
-                                                                    <br>
-                                  
 
-                                    
-                                    <input name="report-phone" type="text" placeholder="Phone" required>
+
+                                    <input name="remail" id="remail" type="email" placeholder="Email" required>
+                                    <br>
+                                    <br>
+
+
+
+                                    <input name="rphone" id="rphone" type="text" placeholder="Phone" required>
 
                                     <label></label>
-                                    <select name="report-subject">
+                                    <select name="rsubject" id="rsubject">
                                         <option value="Wrong category placement">Ad in wrong category placement</option>
                                         <option value="Ad is a scam">Ad is a scam</option>
                                         <option value="Ad is a spam">Ad is a spam</option>
                                     </select>
                                     <br>
                                     <br>
-                               
 
 
-                                    <textarea name="report-message" required placeholder="Type Message here..."></textarea>
 
-                            <button class="btn btn-danger btn-lg btn-block " style="margin-bottom: 20px;"><i class="fa fa-bullhorn"></i> Report </button>
+                                    <textarea name="rmessage" id="rmessage" required placeholder="Type Message here..."></textarea>
+
+                                    <button class="btn btn-danger btn-lg btn-block " id="Reporter" style="margin-bottom: 20px;"><i class="fa fa-bullhorn"></i> Report </button>
 
                                 </form>
 
                             </div>
-                            <button class="btn btn-danger btn-lg btn-block reporter" style="margin-bottom: 20px;"><i class="fa fa-bullhorn"></i> Report this Ad</button>
                         </div>
 
 
@@ -172,14 +195,14 @@
 
 
 
-         
+
 
 
 
             <!-- Footer -->
             <footer id="footer" class="row">
 
-          
+
 
 
 
@@ -192,7 +215,7 @@
 
                             <!-- Like us on Twitter -->
                             <div class="col-lg-3 col-md-3 col-sm-6 twitter-widget">
-                           
+
                                 <a href="#" class="button blue small">More Ads From this User</a>
                             </div>
                             <!-- /Like us on Twitter -->
@@ -240,11 +263,11 @@
                 </div>
                 <!-- /Main Footer -->
             </footer>
-            
 
 
-                <!-- Lower Footer -->
-             <?php $this->load->view('partials/top-footer'); ?>
+
+            <!-- Lower Footer -->
+<?php $this->load->view('partials/top-footer'); ?>
             <!-- Footer -->
 
 
@@ -256,11 +279,183 @@
         <!-- Container -->
         <script>
             $(function () {
+                base_url="<?php echo base_url();?>";
                 $('.show_mobile').click(function () {
                     $(this).hide();
                     $('#mobile_placeholder').remove();
                     $('#mobile').show();
                 });
+
+                $('.reporterButton').click(function () {
+                    $(this).hide();
+                    $('.ad_message').slideUp();
+                    $('.add_report').slideDown();
+                });
+
+              $("#smart-form-report").on("submit", function (e) {
+            e.preventDefault();
+            $report;
+        });
+              $("#smart-form-message").on("submit", function (e) {
+            e.preventDefault();
+            $message;
+        });
+
+                var $report = $("#smart-form-report").validate({
+                    errorElement: 'div',
+                    error: function (label) {
+                        $(this).addClass("error");
+                    },
+                    rules: {
+                        remail: {
+                            required: true,
+                            email: true
+                        },
+                        rname: {
+                            required: true
+                        },
+                        rmessage: {
+                            required: true
+                        },
+                        rphone: {
+                            required: true,
+                            minlength: 10,
+                            maxlength: 10,
+                            number: true
+
+                        },
+                        password: {
+                            required: true,
+                            minlength: 3,
+                            maxlength: 20
+                        },
+//                },
+//                passwordConfirm: {
+//                    required: true,
+//                    minlength: 3,
+//                    maxlength: 20,
+//                    equalTo: '#password'
+//                },
+                    },
+                    // Messages for form validation
+                    messages: {
+                        email: {
+                            required: 'Please enter your email address',
+                            email: 'Please enter a VALID email address'
+                        },
+                        phone: {
+                            required: 'Your phone number is required'
+                        },
+                        description: {
+                            required: 'Please describe your Ad'
+                        },
+                        fullname: {
+                            required: 'Your full name is required'
+                        },
+                        password: {
+                            required: 'Your password is required'
+                        },
+                        dob: {
+                            required: 'Date of Birth is required'
+                        },
+                        dod: {
+                            required: 'Date of Passing On is required'
+                        },
+                    },
+                    submitHandler: function (form) {
+                       $.post(base_url+'home/report/',$('#smart-form-report').serialize(), function(){
+                           $('.add_report').slideUp();
+                           $('.success-message').show();
+                       }).fail(function(){
+                           
+                       });
+                           
+                    },
+                    // Do not change code below
+                    errorPlacement: function (error, element) {
+                        error.insertAfter(element.parent());
+                       
+                    }
+                });
+                
+                var $message = $("#smart-form-message").validate({
+                    errorElement: 'div',
+                    error: function (label) {
+                        $(this).addClass("error");
+                    },
+                    rules: {
+                        email: {
+                            required: true,
+                            email: true
+                        },
+                        name: {
+                            required: true
+                        },
+                        message: {
+                            required: true
+                        },
+                        phone: {
+                            required: true,
+                            minlength: 10,
+                            maxlength: 10,
+                            number: true
+
+                        },
+                        password: {
+                            required: true,
+                            minlength: 3,
+                            maxlength: 20
+                        },
+//                },
+//                passwordConfirm: {
+//                    required: true,
+//                    minlength: 3,
+//                    maxlength: 20,
+//                    equalTo: '#password'
+//                },
+                    },
+                    // Messages for form validation
+                    messages: {
+                        email: {
+                            required: 'Please enter your email address',
+                            email: 'Please enter a VALID email address'
+                        },
+                        phone: {
+                            required: 'Your phone number is required'
+                        },
+                        description: {
+                            required: 'Please describe your Ad'
+                        },
+                        fullname: {
+                            required: 'Your full name is required'
+                        },
+                        password: {
+                            required: 'Your password is required'
+                        },
+                        dob: {
+                            required: 'Date of Birth is required'
+                        },
+                        dod: {
+                            required: 'Date of Passing On is required'
+                        },
+                    },
+                    submitHandler: function (form) {
+                       $.post(base_url+'home/message/',$('#smart-form-message').serialize(), function(){
+                           $('.ad_message').slideUp();
+                           $('.success-message').show();
+                       }).fail(function(){
+                           
+                       });
+                           
+                    },
+                    // Do not change code below
+                    errorPlacement: function (error, element) {
+                        error.insertAfter(element.parent());
+                       
+                    }
+                });
+
+
             });
         </script>
 

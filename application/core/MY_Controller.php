@@ -1,23 +1,84 @@
 <?php
 
+require APPPATH . 'third_party/AfricasTalkingGateway.php';
+require APPPATH . 'third_party/PHPMailerAutoload.php';
+require APPPATH . 'third_party/PHPMailer.php';
+
 class MY_Controller extends CI_Controller {
 
     private $_API = '';
     private $_Auth = '';
+    private $Mailer = '';
+    Private $_SMS = '';
+    private $_smsuser = 'Dindi';
+    private $_smskey = '4824103407c20a26c3dca5b5888b7fffd5f952060ebc07dd59e57d2fde5b9e2d';
 
     function __construct() {
         parent::__construct();
         $this->_API = new API;
         $this->_Auth = new User_authentication;
-    }
+        $this->_SMS = new AfricasTalkingGateway($this->_smsuser, $this->_smskey);
+        $this->Mailer = new PHPMailer;
+        $this->load->library('email');
+        $config['protocol'] = 'smtp';
+        $config['smtp_host'] = 'ssl://smtp.googlemail.com';
+        $config['smtp_port'] = '465';
+        $config['smtp_timeout'] = '7';
+        $config['smtp_user'] = 'ictechshop@gmail.com';
+        $config['smtp_pass'] = 'techshop2016';
+        $config['charset'] = 'utf-8';
+        $config['newline'] = "\r\n";
+        $config['mailtype'] = 'html'; // or html
+        $config['validation'] = TRUE; // bool whether to validate email or not 
 
-    function pagination($controller, $method,$id,$view='grid', $per_page,$table) {
-           if($this->input->get('view')){
-               $view = $this->input->get('view');
-           }else{
-               $view = 'grid';
-           }
-        $config['base_url'] = base_url() . '/' . $controller . '/' . $method."/?view=$view";
+        $this->email->initialize($config);
+    }
+    
+  
+
+    function sendUMAIL($email, $name, $package) {
+        $message = "Hello $name,<br> Your SMARTSchema Account upgrade to  <strong>" . $package . "</strong> has successfully completed.";
+
+        $this->email->from('noreply@ictech.co.ke', 'SMARTSchema Upgrade Agent');
+        $this->email->to($email);
+        $this->email->subject('PACKAGE UPGRADE');
+        $this->email->message($message);
+        $this->email->send();
+        //echo $this->email->print_debugger();
+    }
+    
+    
+     function sendPText($phone, $name, $code) {
+
+        $new = substr($phone, 1);
+
+        echo $recipients = "+254" . $new;
+        $message = "Hello $name, Thank you for purchasing SMARTSchema please use this code $code to activate your product.";
+        $from = '20880';
+        $gateway = $this->_SMS;
+
+        try {
+            $results = $gateway->sendMessage($recipients, $message, $from);
+            foreach ($results as $result) {
+                // Note that only the Status "Success" means the message was sent
+                echo " Number: " . $result->number;
+                echo " Status: " . $result->status;
+                echo " MessageId: " . $result->messageId;
+                echo " Cost: " . $result->cost . "\n";
+            }
+        } catch (AfricasTalkingGatewayException $e) {
+            echo "Encountered an error while sending: " . $e->getMessage();
+        }
+    }
+    
+
+    function pagination($controller, $method, $id, $view = 'grid', $per_page, $table) {
+        if ($this->input->get('view')) {
+            $view = $this->input->get('view');
+        } else {
+            $view = 'grid';
+        }
+        $config['base_url'] = base_url() . '/' . $controller . '/' . $method . "/?view=$view";
         $config['total_rows'] = $this->_API->getTotal($table);
         $config['per_page'] = $per_page;
         $config['use_page_numbers'] = TRUE;
@@ -43,7 +104,7 @@ class MY_Controller extends CI_Controller {
         $config['cur_tag_close'] = '</a></li>';
         $config['num_tag_open'] = '<li class="page">';
         $config['num_tag_close'] = '</li>';
- 
+
         $config['anchor_class'] = 'follow_link';
 
         $this->pagination->initialize($config);

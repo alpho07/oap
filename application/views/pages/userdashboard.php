@@ -15,6 +15,10 @@
             text-align: center !important;
             padding: 0px !important;
         }
+        
+        table-hover td{
+            text-align: left;
+        }
 
     </style>
     <body>
@@ -34,9 +38,12 @@
 
                             <nav id="top-navigation" class="col-lg-7 col-md-7 col-sm-7">
                                 <ul class="pull-left">
-                                    <li><a href="<?php echo base_url(); ?>">Home</a></li>
-                                    <li><a href="<?php echo base_url(); ?>">About</a></li>
-                                    <li><a href="<?php echo base_url(); ?>">Contact Us</a></li>
+                                    <li><a class="btn btn-primary" href="<?php echo base_url(); ?>">Home</a></li>
+                                    <li><a class="btn btn-primary" href="<?php echo base_url(); ?>">About</a></li>
+                                    <li><a class="btn btn-primary" href="<?php echo base_url(); ?>">Contact Us</a></li>
+                                     <?php if ($this->session->userdata('user_id') == TRUE && $this->session->userdata('type') > 0) { ?>
+                        <li><a class="btn btn-primary" href="<?php echo base_url(); ?>admin/admindashboard"><i class="fa fa-dashboard"></i> Admin Dashboard</a></li>
+                        <?php }else{echo '';};?>
 
                                 </ul>
                             </nav>
@@ -107,7 +114,7 @@
                                     <li class="active">
                                         <a  href="#1a" data-toggle="tab">Ads / Obituaries</a>
                                     </li>
-                                    <li><a href="#2a" data-toggle="tab">inbox</a>
+                                    <li><a href="#2a" data-toggle="tab">inbox <?php if($mcount >0){?><span style="background: red" class="badge"><?php echo $mcount;?></span> <?php  }else{ echo ''; };?></a>
                                     </li>
                                     <li><a href="#3a" data-toggle="tab">Receipts</a>
                                     </li>
@@ -204,53 +211,117 @@
                                         </table>
                                     </div>
                                     <div class="tab-pane" id="2a">
-                                        <h3>No Message</h3>
-                                    </div>
-                                    <div class="tab-pane" id="3a">
-                                        <h3>No Payments</h3>
-                                    </div>
-                                    <div class="tab-pane" id="4a">
-                                        <h3>Coming Soon, Watch this space!</h3>
-                                    </div>
-                                </div>
-                            </div>
+                                        <div class="row">
+                                            <div class="box-body no-padding">
+                                                <div class="mailbox-controls">
+                                                    <!-- Check all button -->
+                                                    <button class="btn btn-default btn-sm checkbox-toggle"><i class="glyphicon glyphicon-unchecked"></i></button>
+                                                    <div class="btn-group">
+                                                        <button class="btn btn-default btn-sm"><i class="glyphicon glyphicon-trash"></i></button>
+                                                 
+                                                    </div><!-- /.btn-group -->
+                                                    <button class="btn btn-default btn-sm"><i class="glyphicon glyphicon-refresh"></i></button>
+                                                    <div class="pull-right">
+                                                       
+                                                        <div class="btn-group">
+                                                            <button class="btn btn-default btn-sm"><i class="glyphicon glyphicon-arrow-left"></i></button>
+                                                            <button class="btn btn-default btn-sm"><i class="glyphicon glyphicon-arrow-right"></i></button>
+                                                        </div><!-- /.btn-group -->
+                                                    </div><!-- /.pull-right -->
+                                                </div>
+                                                <hr>
+                                                <div class="table-responsive mailbox-messages" >
+                                                    <table class="table table-hover table-striped">
+                                                        <thead>
+                                                        <th><input type="checkbox"></th>
+                                                        <th>Subject</th>
+                                                        <th>Message</th>
+                                                        <th>Time</th>
+                                                        </thead>
+                                                        <tbody>
+                                                            <?php foreach($messages as $m):?>
+                                                            <tr>
+                                                                <td><input type="checkbox" value="<?php echo $m->id;?>"></td>
+                                                                <td class="mailbox-name"><b><a href="<?php echo base_url().'inbox/read/'. $m->id;?>"><?php echo $m->subject;?></b></a></td>
+                                                                <td class="mailbox-subject"><?php echo mb_strimwidth($m->message , 0, 100, "..."); ?></td>                                                               
+                                                                <td class="mailbox-date"><?php echo $m->date_time;?></td>
+                                                            </tr>
+                                                    <?php endforeach;?>
+                                                    
+                                                          
+                                                        </tbody>
+                                                    </table><!-- /.table -->
+                                                </div><!-- /.mail-box-messages -->
+                                            </div><!-- /.box-body -->
+                                            <hr>
+                                            <div class="box-footer no-padding">
+                                                <div class="mailbox-controls">
+                                                    <!-- Check all button -->
+                                                    <button class="btn btn-default btn-sm checkbox-toggle"><i class="glyphicon glyphicon-unchecked"></i></button>
+                                                    <div class="btn-group">
+                                                        <button class="btn btn-default btn-sm"><i class="glyphicon glyphicon-trash"></i></button>                                                        
+                                                       
+                                                    </div><!-- /.btn-group -->
+                                                    <button class="btn btn-default btn-sm"><i class="glyphicon glyphicon-refresh"></i></button>
+                                                    <div class="pull-right">
+                                                       
+                                                        <div class="btn-group">
+                                                            <button class="btn btn-default btn-sm"><i class="glyphicon glyphicon-arrow-left"></i></button>
+                                                            <button class="btn btn-default btn-sm"><i class="glyphicon glyphicon-arrow-right"></i></button>
+                                                        </div><!-- /.btn-group -->
+                                                    </div><!-- /.pull-right -->
+                                                </div>
+                                            </div>
+                                        </div><!-- /. box -->
+                                    </div>         
+                          
 
-
-
+                 
+                        <div class="tab-pane" id="3a">
+                            <h3>No Payments</h3>
                         </div>
-
+                        <div class="tab-pane" id="4a">
+                            <h3>Coming Soon, Watch this space!</h3>
+                        </div>
                     </div>
-
-
-                </section>
-                <!-- /Main Content -->
-
             </div>
-            <!-- /Content -->
-
-            <script>
-                $(document).ready(function () {
-                    base_url = "<?php echo base_url(); ?>";
-                    loadTitles();
-                    function loadTitles() {
-                        $('.display1234').dataTable();
-                    }
-                });
-            </script>
 
 
-
-
-
-
-            <div id="back-to-top">
-                <i class="icon-up-dir"></i>
-            </div>
 
         </div>
-        <?php $this->load->view('partials/footer'); ?>
+
+    </div>
 
 
-    </body>
+</section>
+<!-- /Main Content -->
+
+</div>
+<!-- /Content -->
+
+<script>
+    $(document).ready(function () {
+        base_url = "<?php echo base_url(); ?>";
+        loadTitles();
+        function loadTitles() {
+            $('.display1234').dataTable();
+        }
+    });
+</script>
+
+
+
+
+
+
+<div id="back-to-top">
+    <i class="icon-up-dir"></i>
+</div>
+
+</div>
+<?php $this->load->view('partials/footer'); ?>
+
+
+</body>
 
 </html>

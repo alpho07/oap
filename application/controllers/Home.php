@@ -24,57 +24,54 @@ class Home extends MY_Controller {
 
     public function all() {
         $view = $this->input->get('view');
-           if ($this->input->get('page')) {
+        if ($this->input->get('page')) {
             $page = $this->input->get('page');
         } else {
             $page = 1;
         }
-        if($view=='list'){
-        $data['content'] = 'pages/list';
-        $data['ptitle'] = "Ads -> List View";
-        $data['title'] = "OOP The best obituary classifieds";
-        $data['listview']=  'all/?view=list&page='.$this->input->get('page');
-        $data['gridview']=  'all/?view=grid&page='.$this->input->get('page');
-        $data['flist'] = $this->_API->getNormalAdsList(18, $page);
-        $data['pages'] = $this->pagination('Home', 'all',$view,$page, 18,'normal_ad');
-        
-        }else{
-        $data['content'] = 'pages/adgrid';
-        $data['ptitle'] = "Ads -> Grid View";
-        $data['title'] = "OOP The best obituary classifieds";
-        $data['listview']=  'all/?view=list&page='.$this->input->get('page');
-        $data['gridview']=  'all/?view=grid&page='.$this->input->get('page');
-        $data['flist'] = $this->_API->getNormalAdsList(20, $page);
-        $data['pages'] = $this->pagination('Home', 'all',$view,$page, 20,'normal_ad');
+        if ($view == 'list') {
+            $data['content'] = 'pages/list';
+            $data['ptitle'] = "Ads -> List View";
+            $data['title'] = "OOP The best obituary classifieds";
+            $data['listview'] = 'all/?view=list&page=' . $this->input->get('page');
+            $data['gridview'] = 'all/?view=grid&page=' . $this->input->get('page');
+            $data['flist'] = $this->_API->getNormalAdsList(18, $page);
+            $data['pages'] = $this->pagination('Home', 'all', $view, $page, 18, 'normal_ad');
+        } else {
+            $data['content'] = 'pages/adgrid';
+            $data['ptitle'] = "Ads -> Grid View";
+            $data['title'] = "OOP The best obituary classifieds";
+            $data['listview'] = 'all/?view=list&page=' . $this->input->get('page');
+            $data['gridview'] = 'all/?view=grid&page=' . $this->input->get('page');
+            $data['flist'] = $this->_API->getNormalAdsList(20, $page);
+            $data['pages'] = $this->pagination('Home', 'all', $view, $page, 20, 'normal_ad');
         }
         $this->TemplateBuilder($data);
     }
-    
-    
-       public function allobs() {
-         $view = $this->input->get('view');
-           if ($this->input->get('page')) {
+
+    public function allobs() {
+        $view = $this->input->get('view');
+        if ($this->input->get('page')) {
             $page = $this->input->get('page');
         } else {
             $page = 1;
         }
-        if($view=='list'){
-        $data['content'] = 'pages/obituarylist';
-        $data['ptitle'] = "Obituary -> List View";
-        $data['title'] = "OOP The best obituary classifieds";
-        $data['listview']=  'allobs/?view=list&page='.$this->input->get('page');
-        $data['gridview']=  'allobs/?view=grid&page='.$this->input->get('page');
-        $data['flist'] = $this->_API->getObituary(18, $page);
-        $data['pages'] = $this->pagination('Home', 'allobs',$view,$page, 18,'obituary');
-        
-        }else{
-        $data['content'] = 'pages/obgrid';
-        $data['ptitle'] = "Obituary -> Grid View";
-        $data['title'] = "OOP The best obituary classifieds";
-        $data['listview']=  'allobs/?view=list&page='.$this->input->get('page');
-        $data['gridview']=  'allobs/?view=grid&page='.$this->input->get('page');
-        $data['flist'] = $this->_API->getObituary(20, $page);
-        $data['pages'] = $this->pagination('Home', 'allobs',$view,$page, 20,'obituary');
+        if ($view == 'list') {
+            $data['content'] = 'pages/obituarylist';
+            $data['ptitle'] = "Obituary -> List View";
+            $data['title'] = "OOP The best obituary classifieds";
+            $data['listview'] = 'allobs/?view=list&page=' . $this->input->get('page');
+            $data['gridview'] = 'allobs/?view=grid&page=' . $this->input->get('page');
+            $data['flist'] = $this->_API->getObituary(18, $page);
+            $data['pages'] = $this->pagination('Home', 'allobs', $view, $page, 18, 'obituary');
+        } else {
+            $data['content'] = 'pages/obgrid';
+            $data['ptitle'] = "Obituary -> Grid View";
+            $data['title'] = "OOP The best obituary classifieds";
+            $data['listview'] = 'allobs/?view=list&page=' . $this->input->get('page');
+            $data['gridview'] = 'allobs/?view=grid&page=' . $this->input->get('page');
+            $data['flist'] = $this->_API->getObituary(20, $page);
+            $data['pages'] = $this->pagination('Home', 'allobs', $view, $page, 20, 'obituary');
         }
         $this->TemplateBuilder($data);
     }
@@ -84,6 +81,8 @@ class Home extends MY_Controller {
         $data['ptitle'] = "User -> Dashboard";
         $data['title'] = "My Dashboard";
         $data['ads'] = $this->_API->getAllUserAds();
+        $data['messages']=  $this->_API->loadMessages();
+        $data['mcount']=  $this->_API->unreadMessages();
         $this->load->view('pages/userdashboard', $data);
     }
 
@@ -280,6 +279,41 @@ class Home extends MY_Controller {
         $username = $this->_POST('username');
         $password = $this->_POST('password');
         $this->_Auth->Authenticate_user_ck($username, $password);
+    }
+
+    function report() {
+        $data = array(
+            'name' => $this->_POST('rname'),
+            'email' => $this->_POST('remail'),
+            'phone' => $this->_POST('rphone'),
+            'message' => $this->_POST('rmessage'),
+            'subject' => $this->_POST('rsubject'),
+            'ad_id' => $this->_POST('ad_id'),
+          
+        );
+        
+        $this->saveData('reports', $data);
+    }
+    function message() {
+        $data = array(
+            'name' => $this->_POST('name'),
+            'email' => $this->_POST('email'),
+            'message' => $this->_POST('message'),
+            'subject' => $this->_POST('subject'),
+            'ad_id' => $this->_POST('ad_id'),
+            'user_id' => $this->get_user(),
+          
+        );
+        
+        $this->saveData('inbox', $data);
+    }
+    
+  
+    
+    function get_user(){
+        $ad = $this->_POST('ad_id');
+        $query = $this->db->select('user_id')->where('id',$ad)->get('normal_ad')->result();
+        return $query[0]->user_id;
     }
 
     function logout() {

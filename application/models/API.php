@@ -38,7 +38,15 @@ class API extends CI_Model {
         $this->db->where('id',$id)->delete($table);
     }
     
+     function loadMessages(){
+        $id = $this->session->userdata('user_id');
+        return $this->db->where('user_id',$id)->get('inbox')->result();
+    } 
     
+    function unreadMessages(){
+         $id = $this->session->userdata('user_id');
+        return $this->db->where('user_id',$id)->where('read','0')->get('inbox')->num_rows(); 
+    }
     
     
     

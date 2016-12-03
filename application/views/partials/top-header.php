@@ -43,7 +43,6 @@
 
 </script>
 <header class="row">
-
     <div class="col-lg-12 col-md-12 col-sm-12">
 
         <!-- Top Header -->
@@ -53,10 +52,13 @@
 
                 <nav id="top-navigation" class="col-lg-7 col-md-7 col-sm-7">
                     <ul class="pull-left">
-                         <li><a href="<?php echo base_url(); ?>">Home</a></li>
+                         <li><a class="btn btn-success"  href="<?php echo base_url(); ?>">Home</a></li>
 
-                        <li><a href="<?php echo base_url(); ?>">About Us</a></li>
-                        <li><a href="<?php echo base_url(); ?>home/contact">Contact</a></li>
+                        <li><a class="btn btn-success" href="<?php echo base_url(); ?>home/about">About Us</a></li>
+                        <li><a class="btn btn-success" href="<?php echo base_url(); ?>home/contact">Contact</a></li>
+                        <?php if ($this->session->userdata('user_id') == TRUE && $this->session->userdata('type') > 0) { ?>
+                        <li><a class="btn btn-primary" href="<?php echo base_url(); ?>admin/admindashboard"><i class="fa fa-dashboard"></i> Admin Dashboard</a></li>
+                        <?php }else{echo '';};?>
                     </ul>
                 </nav>
 
@@ -72,42 +74,13 @@
 
                             <?php } else { ?>
                                 <ul class="pull-right">
-                                    <li class="purple"><a href="#" class="btn btn-warning"><i class="icons icon-user-3"></i> Login</a>
-                                        <ul id="login-dropdown" class="box-dropdown">
-                                            <li>
-                                                <div class="box-wrapper">
-                                                    <h4>LOGIN</h4>
-                                                    <div class="alert align-center alert-danger"><i class="fa fa-exclamation-circle"></i> <span id="error_message"> adadada</span></div>
-                                                    <div class="iconic-input">
-                                                        <input type="text" placeholder="Email" id="uemail">
-                                                        <i class="icons icon-user-3"></i>
-                                                    </div>
-                                                    <div class="iconic-input">
-                                                        <input type="password" placeholder="Password" id="upass">
-                                                        <i class="icons icon-lock"></i>
-                                                    </div>
-
-                                                    <br>
-                                                    <div class="pull-left">
-                                                        <input type="submit" class="orange" id="Login" value="Login">
-                                                    </div>
-                                                    <div class="pull-right">
-                                                        <a href="#">Forgot your password?</a>
-                                                        <br>
-
-                                                    </div>
-                                                    <br class="clearfix">
-                                                </div>
-                                                <div class="footer">
-
-                                                </div>
-                                            </li>
-                                        </ul>
+                                    <li class="purple"><a href="<?php echo base_url(); ?>auth/authorize" class="btn btn-warning"><i class="fa fa-user-circle"></i> Login</a>
+                                       
                                     </li>
 
 
-                                    <li><a class="btn btn-primary" href="<?php echo base_url(); ?>home/postad"><i class="icons icon-plus-1"></i> Post Your Ad</a></li>
-                                    <li><a class="btn btn-success" href="<?php echo base_url(); ?>home/postobituary"><i class="icons icon-plus-1"></i> Post Obituary</a></li>
+                                    <li><a class="btn btn-primary" href="<?php echo base_url(); ?>home/postad"><i class="fa fa-plus-circle"></i> Post Your Ad</a></li>
+                                    <li><a class="btn btn-success" href="<?php echo base_url(); ?>home/postobituary"><i class="fa fa-plus-circle"></i> Post Obituary</a></li>
                                 <?php } ?>
                             </ul>
                             </nav>
@@ -161,7 +134,7 @@
                                         </a>
                                     </li>
                                     <li class="purple">
-                                        <a href="<?php echo base_url(); ?>home/about">
+                                        <a href="<?php echo base_url(); ?>home/contact">
                                             <i class="icons icon-location-7"></i>
                                             <span class="nav-caption">Contact Us</span>
                                             <span class="nav-description">&nbsp;</span>
