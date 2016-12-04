@@ -15,7 +15,7 @@
             text-align: center !important;
             padding: 0px !important;
         }
-        
+
         table-hover td{
             text-align: left;
         }
@@ -24,7 +24,7 @@
     <body>
 
         <!-- Container -->
-        <div class="container">
+        <div class="container ">
 
             <!-- Header -->
             <header class="row">
@@ -40,10 +40,14 @@
                                 <ul class="pull-left">
                                     <li><a class="btn btn-primary" href="<?php echo base_url(); ?>">Home</a></li>
                                     <li><a class="btn btn-primary" href="<?php echo base_url(); ?>">About</a></li>
-                                    <li><a class="btn btn-primary" href="<?php echo base_url(); ?>">Contact Us</a></li>
-                                     <?php if ($this->session->userdata('user_id') == TRUE && $this->session->userdata('type') > 0) { ?>
-                        <li><a class="btn btn-primary" href="<?php echo base_url(); ?>admin/admindashboard"><i class="fa fa-dashboard"></i> Admin Dashboard</a></li>
-                        <?php }else{echo '';};?>
+                                    <li><a class="btn btn-primary" href="<?php echo base_url(); ?>">Contact</a></li>
+                                    <?php if ($this->session->userdata('user_id') == TRUE && $this->session->userdata('type') > 0) { ?>
+                                        <li><a class="btn btn-primary" href="<?php echo base_url(); ?>admin/admindashboard"><i class="fa fa-dashboard"></i> Admin Dashboard</a></li>
+                                        <?php
+                                    } else {
+                                        echo '';
+                                    };
+                                    ?>
 
                                 </ul>
                             </nav>
@@ -114,7 +118,11 @@
                                     <li class="active">
                                         <a  href="#1a" data-toggle="tab">Ads / Obituaries</a>
                                     </li>
-                                    <li><a href="#2a" data-toggle="tab">inbox <?php if($mcount >0){?><span style="background: red" class="badge"><?php echo $mcount;?></span> <?php  }else{ echo ''; };?></a>
+                                    <li><a href="#2a" data-toggle="tab">inbox <?php if ($mcount > 0) { ?><span style="background: red" class="badge"><?php echo $mcount; ?></span> <?php
+                                            } else {
+                                                echo '';
+                                            };
+                                            ?></a>
                                     </li>
                                     <li><a href="#3a" data-toggle="tab">Receipts</a>
                                     </li>
@@ -218,11 +226,11 @@
                                                     <button class="btn btn-default btn-sm checkbox-toggle"><i class="glyphicon glyphicon-unchecked"></i></button>
                                                     <div class="btn-group">
                                                         <button class="btn btn-default btn-sm"><i class="glyphicon glyphicon-trash"></i></button>
-                                                 
+
                                                     </div><!-- /.btn-group -->
                                                     <button class="btn btn-default btn-sm"><i class="glyphicon glyphicon-refresh"></i></button>
                                                     <div class="pull-right">
-                                                       
+
                                                         <div class="btn-group">
                                                             <button class="btn btn-default btn-sm"><i class="glyphicon glyphicon-arrow-left"></i></button>
                                                             <button class="btn btn-default btn-sm"><i class="glyphicon glyphicon-arrow-right"></i></button>
@@ -239,16 +247,16 @@
                                                         <th>Time</th>
                                                         </thead>
                                                         <tbody>
-                                                            <?php foreach($messages as $m):?>
-                                                            <tr>
-                                                                <td><input type="checkbox" value="<?php echo $m->id;?>"></td>
-                                                                <td class="mailbox-name"><b><a href="<?php echo base_url().'inbox/read/'. $m->id;?>"><?php echo $m->subject;?></b></a></td>
-                                                                <td class="mailbox-subject"><?php echo mb_strimwidth($m->message , 0, 100, "..."); ?></td>                                                               
-                                                                <td class="mailbox-date"><?php echo $m->date_time;?></td>
-                                                            </tr>
-                                                    <?php endforeach;?>
-                                                    
-                                                          
+                                                            <?php foreach ($messages as $m): ?>
+                                                                <tr>
+                                                                    <td><input type="checkbox" value="<?php echo $m->id; ?>"></td>
+                                                                    <td class="mailbox-name"><b><a href="<?php echo base_url() . 'inbox/read/' . $m->id; ?>"><?php echo $m->subject; ?></b></a></td>
+                                                                    <td class="mailbox-subject"><?php echo mb_strimwidth($m->message, 0, 100, "..."); ?></td>                                                               
+                                                                    <td class="mailbox-date"><?php echo $m->date_time; ?></td>
+                                                                </tr>
+                                                            <?php endforeach; ?>
+
+
                                                         </tbody>
                                                     </table><!-- /.table -->
                                                 </div><!-- /.mail-box-messages -->
@@ -260,11 +268,11 @@
                                                     <button class="btn btn-default btn-sm checkbox-toggle"><i class="glyphicon glyphicon-unchecked"></i></button>
                                                     <div class="btn-group">
                                                         <button class="btn btn-default btn-sm"><i class="glyphicon glyphicon-trash"></i></button>                                                        
-                                                       
+
                                                     </div><!-- /.btn-group -->
                                                     <button class="btn btn-default btn-sm"><i class="glyphicon glyphicon-refresh"></i></button>
                                                     <div class="pull-right">
-                                                       
+
                                                         <div class="btn-group">
                                                             <button class="btn btn-default btn-sm"><i class="glyphicon glyphicon-arrow-left"></i></button>
                                                             <button class="btn btn-default btn-sm"><i class="glyphicon glyphicon-arrow-right"></i></button>
@@ -274,54 +282,132 @@
                                             </div>
                                         </div><!-- /. box -->
                                     </div>         
-                          
 
-                 
-                        <div class="tab-pane" id="3a">
-                            <h3>No Payments</h3>
+
+
+                                    <div class="tab-pane" id="3a">
+                                        <h3>No Payments</h3>
+                                    </div>
+                                    <div class="tab-pane" id="4a">
+                                        <div class="row">
+
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-md-offset-3" style="background: grey;">
+
+                                                <div class="carousel-heading no-margin">
+                                                    <h4>SETTINGS</h4>
+                                                </div>
+                                                <form id="user_update">
+                                                    <div class="page-content">
+
+                                                        <div class="box-wrapper">
+                                                            <div class="iconic-input">
+                                                                <input type="text" placeholder="Name" id="name" name="name" value="<?php echo $udet[0]->name; ?>">
+                                                                <i class="icons icon-user-3"></i>
+                                                            </div>
+                                                            <div class="iconic-input">
+                                                                <input type="text" placeholder="Email" id="email" name="email" value="<?php echo $udet[0]->email; ?>">
+                                                                <i class="icons icon-mail"></i>
+                                                            </div>
+                                                            <div class="iconic-input">
+                                                                <input type="text" placeholder="Phone" id="phone" name="phone" value="<?php echo $udet[0]->phone; ?>">
+                                                                <i class="icons icon-phone"></i>
+                                                            </div>
+
+                                                            <br>
+                                                            <div class="pull-left">
+                                                                <input type="button" class="btn btn-success" id="Save" value="Save Update">
+                                                                <input type="button" class="btn btn-danger" id="Delete" value="Delete Account">
+                                                            </div>
+                                                            <div class="pull-right">
+
+
+                                                            </div>
+                                                            <br class="clearfix">
+                                                        </div>
+                                                    </div>
+                                                </form>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
                         </div>
-                        <div class="tab-pane" id="4a">
-                            <h3>Coming Soon, Watch this space!</h3>
-                        </div>
+
                     </div>
+
+
+                </section>
+                <!-- /Main Content -->
+
+            </div>
+            <!-- /Content -->
+
+            <script>
+                $(document).ready(function () {
+                    base_url = "<?php echo base_url(); ?>";
+                    loadTitles();
+                    function loadTitles() {
+                        $('.display1234').dataTable();
+                    }
+                    $('#Save').click(function () {
+                        $.post(base_url + 'home/updateUserDetails', $('#user_update').serialize(), function () {
+                            $.Zebra_Dialog("Your Update successfully Updated!", {
+                                'type': 'success',
+                                'title': 'Update Status',
+                                'buttons': [
+                                    {caption: 'Okey', callback: function () {
+
+
+                                        }}
+                                ]
+                            });
+                            return false;
+                        }).fail(function () {
+                            console.log('An error occured');
+                        });
+                        return false;
+                    });
+
+                    $('#Delete').click(function () {
+
+                        $.Zebra_Dialog("You are about to delete this account completely and all its ad references, this action is <strong>permanent</strong> and cannot be undone. Do you want to continue?", {
+                            'type': 'warning',
+                            'title': 'Deleting Account',
+                            'buttons': [
+                                {caption: 'Yes', callback: function () {
+                                        $.post(base_url + 'home/removeUserAccounts', function () {
+                                          window.location.href=base_url;
+                                        }).fail(function () {
+                                            console.log('An error occured');
+                                        });
+
+                                    }},
+                                {caption: 'No', callback: function () {
+
+
+                                    }}
+                            ]
+                        });
+
+
+
+                    });
+                });
+            </script>
+
+            <div id="back-to-top">
+                <i class="icon-up-dir"></i>
             </div>
 
-
-
         </div>
-
-    </div>
-
-
-</section>
-<!-- /Main Content -->
-
-</div>
-<!-- /Content -->
-
-<script>
-    $(document).ready(function () {
-        base_url = "<?php echo base_url(); ?>";
-        loadTitles();
-        function loadTitles() {
-            $('.display1234').dataTable();
-        }
-    });
-</script>
+        <?php $this->load->view('partials/footer'); ?>
 
 
-
-
-
-
-<div id="back-to-top">
-    <i class="icon-up-dir"></i>
-</div>
-
-</div>
-<?php $this->load->view('partials/footer'); ?>
-
-
-</body>
+    </body>
 
 </html>

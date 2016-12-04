@@ -40,9 +40,14 @@
                                 <ul class="pull-left">
                                     <li><a class="btn btn-primary" href="<?php echo base_url(); ?>">Home</a></li>
                                     <li><a class="btn btn-primary" href="<?php echo base_url(); ?>">About</a></li>
-                                    <li><a class="btn btn-primary" href="<?php echo base_url(); ?>">Contact Us</a></li>
+                                    <li><a class="btn btn-primary" href="<?php echo base_url(); ?>">Contact</a></li>
                                      <?php if ($this->session->userdata('user_id') == TRUE && $this->session->userdata('type') > 0) { ?>
-                        <li><a class="btn btn-primary" href="<?php echo base_url(); ?>admin/admindashboard"><i class="fa fa-dashboard"></i> Admin Dashboard</a></li>
+                        <li><?php if ($this->uri->segment(2) == 'admindashboard') { ?>                            
+                                    <a class="btn btn-primary" href="<?php echo base_url(); ?>home/userdashboard"><i class="fa fa-dashboard"></i> My User Dashboard</a>
+                            <?php } else { ?>
+                                <a class="btn btn-primary" href="<?php echo base_url(); ?>admin/admindashboard"><i class="fa fa-dashboard"></i> Admin Dashboard</a>
+
+                            <?php } ?></li>
                         <?php }else{echo '';};?>
 
                                 </ul>

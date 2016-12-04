@@ -100,7 +100,7 @@
                         <div class="col-lg-5 col-md-5 col-sm-5 success-message" style="display:none;">
                             <div class=" alert-success" style="padding: 10px; border: 1px solid; border-radius: 2px;"><i class="fa fa-info-circle" ></i> Message received, thank you!</div> 
                         </div>
-                        <div class="col-lg-5 col-md-5 col-sm-5 ad_message">
+                        <div class="col-lg-5 col-md-5 col-sm-5 ad_message" style="display:inline-block !important;">
 
                             <div class="carousel-heading no-margin">
                                 <h4>Message</h4>

@@ -119,15 +119,14 @@
                                                 <tr>
                                                     <th>No.</th>
                                                     <th style="width:10px !important;"><input type="checkbox" value="" style="display:inline-block"/></th>
-                                                    <th>Screenshot</th>
-                                                    <th>Title</th>
-                                                    <th>Category</th>
-                                                    <th>Date</th>
-                                                    <th></th>
-                                                    <th></th>
-                                                    <th></th>
-                                                    <th></th>
-                                                    <th></th>
+                                                    <th>Subject</th>
+                                                    <th>Message</th>
+                                                    <th>AD_ID</th>
+                                                    <th>Name</th>
+                                                    <th>Phone</th>
+                                                    <th>Email</th>
+                                                    <th>Status</th>
+                                                
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -138,60 +137,20 @@
                                                     <tr >
                                                         <td ><?php echo $i; ?></td>
                                                         <td><input style="display: inline-table !important" type="checkbox" value=""/></td>
-                                                        <td style="width:80px !important;"><img src="<?php echo base_url() . $ad->image_path; ?>" alt="Ad Image" width="79px" height="50px;"/></td>
-                                                        <td><?php echo $ad->title; ?></td>
+                                                        <td><b><?php echo $ad->subject; ?></b></td>
+                                                        <td><?php echo $ad->message; ?></td>
+                                                        <td><?php echo $ad->ad_id; ?></td>
                                                         <td><?php echo $ad->name; ?></td>
-                                                        <td><?php echo $ad->date_posted; ?></td>
-                                                        <td> <?php if ($ad->category == '1') { ?>
-                                                                <a class="btn btn-primary" href="<?php echo base_url() . 'home/editpf/' . $ad->id . '/' . str_replace(" ", "-", $ad->title); ?>"><i class="fa fa-edit"></i> Edit</a>
-                                                            <?php } else { ?>
-                                                                <a class="btn btn-primary" href="<?php echo base_url() . 'home/edits/' . $ad->id . '/' . str_replace(" ", "-", $ad->title); ?>"><i class="fa fa-edit"></i> Edit</a>
-
-                                                            <?php } ?> </td>
-                                                        <td>
-
-                                                            <?php if ($ad->category == '1') { ?>
-                                                                <a class="btn btn-danger" href="<?php echo base_url() . 'home/delob/' . $ad->id; ?>"><i class="fa fa-trash"></i> Delete</a></td>
-                                                        <?php } else { ?>
-                                                    <a class="btn btn-danger" href="<?php echo base_url() . 'home/delad/' . $ad->id; ?>"><i class="fa fa-trash"></i> Delete</a></td>
-
-                                                <?php } ?> 
-
-                                                <td> <?php if ($ad->category == '1') { ?>
-                                                        <?php if ($ad->user_status == '1') { ?>
-                                                            <a class="btn btn-warning" href="<?php echo base_url() . 'home/obdeactivate/' . $ad->id; ?>"><i class="fa fa-power-off"></i> Deactivate</a>     
-
-
-                                                        <?php } else { ?>
-                                                            <a class="btn btn-success" href="<?php echo base_url() . 'home/obactivate/' . $ad->id; ?>"><i class="fa fa-arrow-up"></i> Activate</a>
-
-                                                        <?php } ?> 
+                                                        <td><?php echo $ad->phone; ?></td>
+                                                        <td><?php echo $ad->email; ?></td>
+                                                         <td>
+                                                    <?php if ($ad->solved == '0') { ?>
+                                                             <a class="btn btn-warning" tititle="Click to Mark report as taken care of" href="<?php echo base_url() . 'admin/solved/' . $ad->id . '/' ;?>"><i class="fa fa-times-circle-o"></i> Mark as Solved</a>
                                                     <?php } else { ?>
-                                                        <?php if ($ad->user_status == '1') { ?>
-                                                            <a class="btn btn-warning" href="<?php echo base_url() . 'home/adeactivate/' . $ad->id; ?>"><i class="fa fa-power-off"></i> Deactivate</a>     
-
-
-                                                        <?php } else { ?>
-                                                            <a class="btn btn-success" href="<?php echo base_url() . 'home/adactivate/' . $ad->id; ?>"><i class="fa fa-arrow-up"></i> Activate</a>
-
-                                                        <?php } ?> 
-                                                    <?php } ?> 
-                                                </td>                                                    
-
-                                                <td>
-                                                    <?php if ($ad->category == '1') { ?>
-                                                        <a class="btn btn-default" href="<?php echo base_url() . 'home/loadprofile/' . $ad->id . '/' . str_replace(" ", "-", $ad->title); ?>"><i class="fa fa-binoculars"></i> Preview</a>
-                                                    <?php } else { ?>
-                                                        <a class="btn btn-default" href="<?php echo base_url() . 'home/loadsingle/' . $ad->id . '/' . str_replace(" ", "-", $ad->title); ?>"><i class="fa fa-binoculars"></i> Preview</a>
+                                                        <a class="btn btn-success" href="<?php echo base_url() . 'admin/solved/' . $ad->id . '/' ; ?>"><i class="fa fa-check-circle-o"></i> Solved</a>
 
                                                     <?php } ?> </td>
-
-                                                <td><?php if ($ad->admin_status == '1') { ?>
-                                                        <span class="btn btn-success" title="Admin status: Approved"><i class="fa fa-check-circle-o"></i> </span>
-                                                    <?php } else { ?>
-                                                        <span class="btn btn-danger" title="Admin status: Not Approved"><i class="fa fa-times-circle-o"></i></span>                                                       
-
-                                                    <?php } ?> </td>   
+                 
                                                 </tr>
                                                 <?php
                                                 $i++;

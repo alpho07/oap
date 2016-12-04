@@ -39,22 +39,31 @@ class API extends CI_Model {
     }
 
     function getUsers() {
+        
         return $this->db->get('users')->result();
+    }
+    
+    function getUserDetails() {
+           $id = $this->session->userdata('user_id');
+        return $this->db->where('id',$id)->get('users')->result();
+    }
+    function getPremiumAds() {
+        return $this->db->order_by('id','asc')->get('premium_ad')->result();
     }
 
     function getAllUserAdsAdmin() {
         return $this->db->query("SELECT ad.*, c.name , u.name as user, u.id uid
               FROM normal_ad ad 
-              INNER JOIN categories c ON c.id=ad.category 
-              INNER JOIN users u ON ad.user_id = u.id
+              LEFT JOIN categories c ON c.id=ad.category 
+              LEFT JOIN users u ON ad.user_id = u.id
               ORDER BY ad.id DESC")->result();
     }
 
     function getAllUserObsAdmin() {
         return $this->db->query("SELECT ad.*, c.name , u.name as user,  u.id uid
               FROM obituary ad 
-              INNER JOIN categories c ON c.id=ad.category 
-              INNER JOIN users u ON ad.user_id = u.id
+              LEFT JOIN categories c ON c.id=ad.category 
+              LEFT JOIN users u ON ad.user_id = u.id
               ORDER BY ad.id DESC
               ")->result();
     }
@@ -79,6 +88,10 @@ class API extends CI_Model {
     function unreadMessages() {
         $id = $this->session->userdata('user_id');
         return $this->db->where('user_id', $id)->where('read', '0')->get('inbox')->num_rows();
+    }
+    
+     function unSolved() {
+        return $this->db->where('solved', '0')->order_by('id','desc')->get('reports')->num_rows();
     }
 
     function getUserAds($uid) {

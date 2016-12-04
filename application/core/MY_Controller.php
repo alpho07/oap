@@ -135,6 +135,11 @@ class MY_Controller extends CI_Controller {
         $this->_API->Delete($id, $table);
         redirect('home/userdashboard');
     }
+    
+      function DeleteAccount($id, $table) {
+        $this->_API->Delete($id, $table);
+        $this->_Auth->kill_session();
+    }
 
     function _POST($name) {
         return $this->input->post($name);

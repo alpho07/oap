@@ -121,6 +121,7 @@
                                                     <th style="width:10px !important;"><input type="checkbox" value="" style="display:inline-block"/></th>
                                                     <th>Client Name</th>
                                                     <th>Ad ID</th>
+                                                    <th>Ad Type</th>
                                                     <th>Amount Payed</th>
                                                     <th>Date Paid</th>
                                                 
@@ -136,6 +137,7 @@
                                                         <td><input style="display: inline-table !important" type="checkbox" value=""/></td>
                                                         <td><?php echo $ad->name; ?></td>
                                                         <td><?php echo $ad->id; ?></td>
+                                                        <td><?php echo $ad->ad_type; ?></td>
                                                         <td><?php echo $ad->amount; ?></td>
                                                         <td><?php echo $ad->date; ?></td>
                                                  

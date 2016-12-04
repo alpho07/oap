@@ -52,13 +52,20 @@
 
                 <nav id="top-navigation" class="col-lg-7 col-md-7 col-sm-7">
                     <ul class="pull-left">
-                         <li><a class="btn btn-success"  href="<?php echo base_url(); ?>">Home</a></li>
+                        <li><a class="btn btn-success"  href="<?php echo base_url(); ?>">Home</a></li>
 
-                        <li><a class="btn btn-success" href="<?php echo base_url(); ?>home/about">About Us</a></li>
+                        <li><a class="btn btn-success" href="<?php echo base_url(); ?>home/about">About</a></li>
                         <li><a class="btn btn-success" href="<?php echo base_url(); ?>home/contact">Contact</a></li>
                         <?php if ($this->session->userdata('user_id') == TRUE && $this->session->userdata('type') > 0) { ?>
-                        <li><a class="btn btn-primary" href="<?php echo base_url(); ?>admin/admindashboard"><i class="fa fa-dashboard"></i> Admin Dashboard</a></li>
-                        <?php }else{echo '';};?>
+                            <li><?php if ($this->uri->segment(2) == 'admindashboard') { ?>                            
+                                    <a class="btn btn-primary" href="<?php echo base_url(); ?>home/userdashboard"><i class="fa fa-dashboard"></i> My User Dashboard</a>
+                            <?php } else { ?>
+                                <a class="btn btn-primary" href="<?php echo base_url(); ?>admin/admindashboard"><i class="fa fa-dashboard"></i> Admin Dashboard</a>
+
+                            <?php } ?></li>
+                        <?php } else {
+                            echo '';
+                        }; ?>
                     </ul>
                 </nav>
 
@@ -66,22 +73,22 @@
 
                     <ul class="pull-right">
 
-                        <?php if ($this->session->userdata('user_id') == TRUE) { ?>
+<?php if ($this->session->userdata('user_id') == TRUE) { ?>
                             <li><span><i class="icons icon-user-3"></i> <?php echo $this->session->userdata('username'); ?></span></li>
-                            <li class="purple"><a href="<?php echo base_url().'home/userdashboard';?>" class="purple"><i class="fa fa-das"></i> Dashboard</a></li>
-                       
+                            <li class="purple"><a href="<?php echo base_url() . 'home/userdashboard'; ?>" class="purple"><i class="fa fa-das"></i> Dashboard</a></li>
+
                             <li class="purple pull-right"><a href="<?php echo base_url() . 'home/logout'; ?>"><i class="fa fa-power-off"></i> Logout</a>
 
-                            <?php } else { ?>
+<?php } else { ?>
                                 <ul class="pull-right">
                                     <li class="purple"><a href="<?php echo base_url(); ?>auth/authorize" class="btn btn-warning"><i class="fa fa-user-circle"></i> Login</a>
-                                       
+
                                     </li>
 
 
                                     <li><a class="btn btn-primary" href="<?php echo base_url(); ?>home/postad"><i class="fa fa-plus-circle"></i> Post Your Ad</a></li>
                                     <li><a class="btn btn-success" href="<?php echo base_url(); ?>home/postobituary"><i class="fa fa-plus-circle"></i> Post Obituary</a></li>
-                                <?php } ?>
+<?php } ?>
                             </ul>
                             </nav>
 
@@ -100,15 +107,15 @@
                                     <div id="logo" class="col-lg-4 col-md-4 col-sm-4">
                                         <a href="<?php echo base_url(); ?>"><img src="<?php echo base_url(); ?>img/logo3.png" alt="Logo"></a>
                                     </div>
-                                      <?php if ($this->session->userdata('user_id') == TRUE) { ?>
-                                         <nav id="middle-navigation" stclass="col-lg-8 col-md-8 col-sm-8">
-                                             <ul class="pull-right">
-                                       
-                                              <li><a class="btn btn-primary" href="<?php echo base_url(); ?>home/postada"><i class="icons icon-plus-1"></i> Post Your Ad</a></li>
-                            <li><a class="btn btn-success" href="<?php echo base_url(); ?>home/postobituarya"><i class="icons icon-plus-1"></i> Post Obituary</a></li>
-                                        </ul>
-                                    </nav>
-                                      <?php }?>
+<?php if ($this->session->userdata('user_id') == TRUE) { ?>
+                                        <nav id="middle-navigation" stclass="col-lg-8 col-md-8 col-sm-8">
+                                            <ul class="pull-right">
+
+                                                <li><a class="btn btn-primary" href="<?php echo base_url(); ?>home/postada"><i class="icons icon-plus-1"></i> Post Your Ad</a></li>
+                                                <li><a class="btn btn-success" href="<?php echo base_url(); ?>home/postobituarya"><i class="icons icon-plus-1"></i> Post Obituary</a></li>
+                                            </ul>
+                                        </nav>
+<?php } ?>
 
                                 </div>
 

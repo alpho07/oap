@@ -77,13 +77,20 @@ class Home extends MY_Controller {
     }
 
     public function UserDashboard() {
+        if ($this->session->userdata('user_id') == TRUE) {
         $data['content'] = 'pages/userdashboard';
         $data['ptitle'] = "User -> Dashboard";
         $data['title'] = "My Dashboard";
+      
         $data['ads'] = $this->_API->getAllUserAds();
+         
         $data['messages']=  $this->_API->loadMessages();
         $data['mcount']=  $this->_API->unreadMessages();
+        $data['udet']=  $this->_API->getUserDetails();
         $this->load->view('pages/userdashboard', $data);
+        }else{
+            redirect('auth/authorize/');
+        }
     }
 
     public function listview() {
@@ -242,7 +249,7 @@ class Home extends MY_Controller {
 
             $filedata = $this->upload->data();
 
-            $uid = $this->getLastId();
+            $uid = 'USR'.date('YdmHis');
 
             $addata = array(
                 'title' => $this->_POST('addtitle'),
@@ -258,6 +265,7 @@ class Home extends MY_Controller {
 
 
             $user = array(
+                'id'=> $uid,
                 'name' => $this->_POST('fullname'),
                 'phone' => $this->_POST('phone'),
                 'email' => $this->_POST('email'),
@@ -342,8 +350,7 @@ class Home extends MY_Controller {
 
             $filedata = $this->upload->data();
 
-            $uid = $this->getLastId();
-
+             $uid = 'USR'.date('YdmHis');
             $addata = array(
                 'title' => $this->_POST('obtitle'),
                 'obtitle' => $this->_POST('addtitle'),
@@ -360,6 +367,7 @@ class Home extends MY_Controller {
 
 
             $user = array(
+                'id'=>$uid,
                 'name' => $this->_POST('fullname'),
                 'phone' => $this->_POST('phone'),
                 'email' => $this->_POST('email'),
@@ -431,6 +439,20 @@ class Home extends MY_Controller {
                 redirect('home/editpf/' . $id . '/' . $pe);
             }
         }
+    }
+    
+    function updateUserDetails(){
+             $addata = array(
+                'name' => $this->_POST('name'),
+                'email' => $this->_POST('email'),
+                'phone' => $this->_POST('phone'),          
+            );
+            $this->Update($this->session->userdata('user_id'), 'users', $addata);
+        
+    }
+    
+    function removeUserAccounts(){
+         $this->DeleteAccount($this->session->userdata('user_id'), 'users');
     }
 
     public function adedit($id, $pe) {
