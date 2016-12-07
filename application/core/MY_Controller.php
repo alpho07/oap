@@ -34,6 +34,11 @@ class MY_Controller extends CI_Controller {
 
         $this->email->initialize($config);
     }
+    function setUrl(){
+       $url = $this->_POST('url');
+       $this->session->set_userdata(array('browsing_cache'=>$url));
+    }
+    
     function isAuthorized(){
              if ($this->session->userdata('user_id') == TRUE ) {
             

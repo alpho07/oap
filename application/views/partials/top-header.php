@@ -82,11 +82,12 @@
 <?php } else { ?>
                                 <ul class="pull-right">
                                     <li class="purple"><a href="<?php echo base_url(); ?>auth/authorize" class="btn btn-warning"><i class="fa fa-user-circle"></i> Login</a>
+                                    <li class="purple"><a href="<?php echo base_url(); ?>auth/register" class="btn btn-primary"><i class="fa fa-book"></i> Register</a>
 
                                     </li>
 
 
-                                    <li><a class="btn btn-primary" href="<?php echo base_url(); ?>home/postad"><i class="fa fa-plus-circle"></i> Post Your Ad</a></li>
+                                    <li><a class="btn btn-primary" href="<?php echo base_url(); ?>home/postad"><i class="fa fa-plus-circle"></i> Post Ad</a></li>
                                     <li><a class="btn btn-success" href="<?php echo base_url(); ?>home/postobituary"><i class="fa fa-plus-circle"></i> Post Obituary</a></li>
 <?php } ?>
                             </ul>

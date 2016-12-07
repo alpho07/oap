@@ -67,8 +67,12 @@
                     <div class="col-lg-4 col-md-4 col-sm-4">
                         <p>Price</p>
                     </div>
-                    <div class="col-lg-8 col-md-8 col-sm-8">
-                        <input required type="text" name="price" id="price" value="<?php echo isset($_POST['price']) ? $_POST['price'] : '' ?>">
+                    <div class="col-lg-4 col-md-4 col-sm-4">
+                        <input  type="text" name="price" id="price" value="<?php echo isset($_POST['price']) ? $_POST['price'] : '' ?>">
+                    </div>
+                          
+                    <div class="col-lg-4 col-md-4 col-sm-4">
+                        <input required type="checkbox" name="negotaible" id="negotiable" value="1"> Negotiable
                     </div>	
 
                 </div>

@@ -100,7 +100,8 @@
 
                                 <br>
                                 <div class="pull-left">
-                                    <input type="submit" class="orange" id="Login" value="Login">
+                                    <input type="submit" class="orange" id="Login" value="Login"> Or 
+                                     <a href="<?php echo base_url();?>auth/register/">Register</a>
                                 </div>
                                 <div class="pull-right">
                                     <a href="#">Forgot your password?</a>
@@ -159,10 +160,15 @@
             });
 
             function login(u, p) {
+                 login_sess ="<?php echo $this->session->userdata('browsing_cache')?>";
                 $.post(base_url + "auth/authenticate", {username: u, password: p}, function (resp) {
-                    if (resp === 'success') {          
                    
+                    if (resp === 'success') {          
+                         if(login_sess!==''){
+                             window.location.href ="<?php echo $this->session->userdata('browsing_cache');?>";
+                         }else{
                         window.location.href = base_url + "home/userdashboard/";
+                       }
                 
                     } else {
                         error_message.text('Invalid Username / Password');

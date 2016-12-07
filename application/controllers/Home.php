@@ -14,6 +14,7 @@ class Home extends MY_Controller {
     }
 
     public function index() {
+      
         $data['content'] = 'pages/featured';
         $data['ptitle'] = "Latest Adds -> Grid View";
         $data['title'] = "OOP The best obituary classifieds";
@@ -101,12 +102,13 @@ class Home extends MY_Controller {
     }
 
     function loadSingle($id, $pe) {
-        $this->_API->setVisitorCountAd($id);
+        $this->_API->setVisitorCountAd($id);       
         $data['ptitle'] = "Ads Single";
         $data['title'] = "Ads Highlight";
         $data['pe'] = $pe;
         $data['ver'] = $this->_API->checkArticle('normal_ad', $id);
-        $data['info'] = $this->_API->getSingleAd($id);
+        $data['info'] = $this->_API->getSingleAd($id);   
+        $data['similar']=  $this->_API->getNormalAdRandom($data['info'][0]->category, 'normal_ad');
         $data['views'] = $this->_API->getCountAd($id);
         $this->load->view('pages/singleview_ad', $data);
     }
@@ -122,6 +124,8 @@ class Home extends MY_Controller {
         $data['info'] = $this->_API->getSingleOb($id);
         $data['comments'] = $this->_API->getObComments($id);
         $data['views'] = $this->_API->getCount($id);
+        $data['similar']=  $this->_API->getNormalAdRandom(1, 'obituary');
+
         $this->TemplateBuilder($data);
     }
 

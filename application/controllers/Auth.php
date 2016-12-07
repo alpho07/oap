@@ -25,10 +25,12 @@ class Auth extends MY_Controller {
         $this->TemplateBuilder($data);  
     }
     
-      function authorize(){      
-        
-        $data['page'] = 'content/front/login';
-        $this->load->view('pages/login',$data);
+      function authorize(){       
+        $this->load->view('pages/login');
+    }
+    
+      function register(){       
+        $this->load->view('pages/register');
     }
     
        function loginCheckout($mode){

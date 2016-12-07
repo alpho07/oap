@@ -122,6 +122,23 @@
                     </div>	
 
                 </div>
+                
+                     <div class="row">
+
+                    <div class="col-lg-4 col-md-4 col-sm-4">
+                        <p>Contact Persons</p>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4">
+                        <input type="text" name="con1" id="con1" placeholder="Phone or email of contact person 1" required value="<?php echo isset($_POST['con1']) ? $_POST['con1'] : '' ?>"/> 
+
+                    </div>	
+                    <div class="col-lg-4 col-md-4 col-sm-4">
+                        <input type="text" name="con2" id="con2" placeholder="Phone or email of contact person 2" required value="<?php echo isset($_POST['con2']) ? $_POST['con2'] : '' ?>"/>
+
+                    </div>
+                  <p style="margin-left:  10px; color: blue; padding: 2px; "><small>We need contact persons for verification of authenticity of this obituary</small></p>
+
+                </div>
 
                 <!--div class="row">
 

@@ -162,6 +162,14 @@ class API extends CI_Model {
         return $query;
     }
 
+    function getNormalAdRandom($cid, $table) {
+        return $this->db->query("SELECT ad.*, c.name 
+FROM $table ad
+LEFT JOIN categories c ON c.id = ad.category 
+AND ad.category ='$cid'
+ORDER BY RAND() LIMIT 6;")->result();
+    }
+
     function getTotal($table) {
         return $this->db->where('user_status', '1')->where('admin_status', '1')->get($table)->num_rows();
     }
@@ -223,37 +231,36 @@ class API extends CI_Model {
         return $this->db->where('page', $id)->get('adviews')->num_rows();
     }
 
-    function getSearchResults( $query, $limit, $offset) {
-      
-       
-   if (strlen($query['keyword'])) {
-            $kw=$query['keyword'];
+    function getSearchResults($query, $limit, $offset) {
+
+
+        if (strlen($query['keyword'])) {
+            $kw = $query['keyword'];
         }
         if (strlen($query['category'])) {
-           $ca =$query['category'];
+            $ca = $query['category'];
         }
-        $q = $this->db->query("SELECT * FROM `normal_ad` WHERE `title` LIKE '%$kw%' ESCAPE '!' AND `category` = '$ca' ORDER BY `id` DESC LIMIT $limit OFFSET $offset")->result(); 
+        $q = $this->db->query("SELECT * FROM `normal_ad` WHERE `title` LIKE '%$kw%' ESCAPE '!' AND `category` = '$ca' ORDER BY `id` DESC LIMIT $limit OFFSET $offset")->result();
         return $q;
     }
-    
-       function getSearchCount($query) {   
-      
+
+    function getSearchCount($query) {
+
         $q = $this->db->select('COUNT(*) count')
                 ->from('normal_ad');
         if (strlen($query['keyword'])) {
-            $q->like('title',$query['keyword']);
+            $q->like('title', $query['keyword']);
         }
         if (strlen($query['category'])) {
-            $q->where('category',$query['category']);
+            $q->where('category', $query['category']);
         }
-        $res=$q->get()->result();
-        
-        if(!empty($res)):
+        $res = $q->get()->result();
+
+        if (!empty($res)):
             return $res[0]->count;
-            else:
+        else:
             return 0;
         endif;
     }
-    
 
 }

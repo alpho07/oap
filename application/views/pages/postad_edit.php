@@ -10,17 +10,17 @@
     div.error{
         display:none !important;
     }
- input.error,select.error,textArea.error {
-    border: 1px solid red !important ;
-}
+    input.error,select.error,textArea.error {
+        border: 1px solid red !important ;
+    }
 </style>
 <div class="row">
-    <form id="smart-form" method="POST" enctype='multipart/form-data' action="<?php echo base_url().'home/adedit/'.$id.'/'.$pe.'/'.  base64_encode('newAdd');?>">
+    <form id="smart-form" method="POST" enctype='multipart/form-data' action="<?php echo base_url() . 'home/adedit/' . $id . '/' . $pe . '/' . base64_encode('newAdd'); ?>">
 
         <div class="col-lg-12 col-md-12 col-sm-12 register-account">
 
             <div class="carousel-heading no-margin">
-                <h4>Edit Ad :  <?php echo $info[0]->title;?></h4>
+                <h4>Edit Ad :  <?php echo $info[0]->title; ?></h4>
             </div>
 
 
@@ -39,7 +39,7 @@
                         <p>Ad Title</p>
                     </div>
                     <div class="col-lg-8 col-md-8 col-sm-8">
-                        <input type="text" required name="addtitle" id="addtitle" value="<?php echo $info[0]->title;?>">
+                        <input type="text" required name="addtitle" id="addtitle" value="<?php echo $info[0]->title; ?>">
                     </div>	
 
                 </div>
@@ -51,7 +51,7 @@
                     </div>
                     <div class="col-lg-8 col-md-8 col-sm-8">
                         <select required class="chosen-select-search" name="category" id="category" >
-                            <option value="<?php echo $info[0]->category;?>"><?php echo $info[0]->name;?></option>
+                            <option value="<?php echo $info[0]->category; ?>"><?php echo $info[0]->name; ?></option>
                             <option value="2">Caskets</option>
                             <option value="3">Pathologists</option>
                             <option value="4">Hospitals</option>
@@ -61,14 +61,18 @@
                     </div>	
 
                 </div>
-                
-                      <div class="row">
+
+                <div class="row">
 
                     <div class="col-lg-4 col-md-4 col-sm-4">
                         <p>Price</p>
                     </div>
-                    <div class="col-lg-8 col-md-8 col-sm-8">
-                        <input required type="text" name="price" id="price" value="<?php echo $info[0]->price;?>">
+                    <div class="col-lg-4 col-md-4 col-sm-4">
+                        <input  type="text" name="price" id="price" value="<?php echo isset($_POST['price']) ? $_POST['price'] : '' ?>">
+                    </div>
+
+                    <div class="col-lg-4 col-md-4 col-sm-4">
+                        <input required type="checkbox" name="negotaible" id="negotiable" value="1"> Negotiable
                     </div>	
 
                 </div>
@@ -79,7 +83,7 @@
                         <p>Description</p>
                     </div>
                     <div class="col-lg-8 col-md-8 col-sm-8">
-                        <textarea required name="description" name="description" id="description"  ><?php echo $info[0]->description;?></textarea>
+                        <textarea required name="description" name="description" id="description"  ><?php echo $info[0]->description; ?></textarea>
                     </div>	
 
                 </div>
@@ -91,9 +95,9 @@
                         <p>Ad Image</p>
                     </div>
                     <div class="col-lg-8 col-md-8 col-sm-8">
-                        <div style="color:red;font-weight: bold;" > <?php echo @$error;?></div>
+                        <div style="color:red;font-weight: bold;" > <?php echo @$error; ?></div>
                         <p><input  type="file" id="file" multiple  name="file"/></p>
-                        <p id="img"><img src="<?php echo base_url().$info[0]->image_path;?>" alt="<?php echo $info[0]->title?>"/></p>
+                        <p id="img"><img src="<?php echo base_url() . $info[0]->image_path; ?>" alt="<?php echo $info[0]->title ?>"/></p>
                     </div>	
 
                 </div>
@@ -115,7 +119,7 @@
                         <p>Your Region</p>
                     </div>
                     <div class="col-lg-8 col-md-8 col-sm-8">
-                        <input required type="text" name="region" id="region" value="<?php echo $info[0]->region;?>">
+                        <input required type="text" name="region" id="region" value="<?php echo $info[0]->region; ?>">
                     </div>	
 
                 </div>
@@ -226,11 +230,11 @@
             e.preventDefault();
             $registerForm;
         });
-        
-        $('#category').change(function(){
+
+        $('#category').change(function () {
             value = $(this).val();
-            if(value==='1'){
-                window.location.href="<?php echo base_url();?>home/postobituary"
+            if (value === '1') {
+                window.location.href = "<?php echo base_url(); ?>home/postobituary"
             }
         });
 
@@ -238,7 +242,7 @@
 
 
         var $registerForm = $("#smart-form").validate({
-              errorElement: 'div',
+            errorElement: 'div',
             rules: {
                 addtitle: {
                     required: true
@@ -251,17 +255,14 @@
                 },
                 price: {
                     required: true,
-                    number:true
+                    number: true
                 },
-         
-            
                 region: {
                     required: true,
                 },
                 fullname: {
                     required: true
                 },
-            
 //                },
 //                passwordConfirm: {
 //                    required: true,
@@ -308,7 +309,7 @@
         });
 
 
-});
+    });
 
 
 

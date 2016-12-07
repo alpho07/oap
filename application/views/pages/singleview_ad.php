@@ -20,7 +20,26 @@
             input.error,select.error,textArea.error {
                 border: 1px solid red !important ;
             }
-           
+
+
+            .card {
+                /* Add shadows to create the "card" effect */
+                box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+                transition: 0.3s;
+            }
+
+            /* On mouse-over, add a deeper shadow */
+            .card:hover {
+                box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+            }
+
+            .product-image img { 
+                background-position: 50% 50%;
+                background-repeat:   no-repeat;
+                background-size:     cover;
+            }
+
+
         </style>
 
     </head>
@@ -67,15 +86,17 @@
                                         echo $date->format('jS F Y  ');
                                         ?> &#187 <?php echo '<strong>Ad ID</strong>: ' . $info[0]->id; ?></span>
                                     <div class="well col-lg-12" style="border-top: none;">
-<?php echo $info[0]->description; ?>
+                                        <?php echo $info[0]->description; ?>
                                     </div>
                                 </div>
 
-                                <p><a href=""><i class="fa fa-heart-o "></i> Mark as favourite</a> | <a href=""><i class="fa fa-print "></i> Print</a>  |  <span><i class="fa fa-eye "></i> <?php echo $views;?>Views</span>   <?php if ($this->session->userdata('user_id') == TRUE && $ver > 0) { ?>
+                                <p><a href=""><i class="fa fa-heart-o "></i> Mark as favourite</a> | <a href=""><i class="fa fa-print "></i> Print</a>  |  <span><i class="fa fa-eye "></i> <?php echo $views; ?>Views</span>   <?php if ($this->session->userdata('user_id') == TRUE && $ver > 0) { ?>
                                         <a href="<?php echo base_url() . 'home/edits/' . $info[0]->id . '/' . str_replace(" ", "-", $info[0]->title); ?>" class="btn btn-success" style="margin: 20px;"><i class="fa fa-edit"></i> Edit
-<?php } else {
-    echo '';
-} ?>  </a></p>
+                                            <?php
+                                        } else {
+                                            echo '';
+                                        }
+                                        ?>  </a></p>
                             </div>
 
                         </div>
@@ -112,7 +133,7 @@
 
 
                                     <input name="name" type="text" id="name" required placeholder="Name">
-                                     <input name="ad_id" type="hidden" value="<?php echo $info[0]->id;?>">
+                                    <input name="ad_id" type="hidden" value="<?php echo $info[0]->id; ?>">
 
 
                                     <input name="email" id="email" type="email" placeholder="Email" required>
@@ -147,7 +168,7 @@
 
 
                                     <input name="rname" id="rname" type="text" required placeholder="Name">
-                                    <input name="ad_id" type="hidden" value="<?php echo $info[0]->id;?>">
+                                    <input name="ad_id" type="hidden" value="<?php echo $info[0]->id; ?>">
                                     <br>
 
 
@@ -189,7 +210,34 @@
 
             </div>
             <!-- /Content -->
+            <hr>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 ">
 
+                    <div class="carousel-heading no-margin">
+                        <h4>Similar Ads</h4>
+                    </div>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 " style="margin-top:5px !important;">
+                    <div class="row subcategories " style="margin-left: 2px !important;">
+                        <?php foreach ($similar as $ob): ?>
+
+                            <!-- Subcategory -->
+                            <div class="col-lg-fifth col-md-fifth col-sm-fifth subcategory" style="width:190px;" >
+
+                                <a class="product-image" href="<?php echo base_url() . 'home/loadsingle/' . $ob->id . '/' . str_replace(" ", "-", $ob->title); ?>">
+                                    <img src="<?php echo base_url() . $ob->image_path; ?>" alt="<?php echo $ob->title; ?>"  style="height:180px !important;"  /></a>
+                                <div class="product-info card">
+                                    <h5><a href="<?php echo base_url() . 'home/loadsingle/' . $ob->id . '/' . str_replace(" ", "-", $ob->title); ?>"><?php echo mb_strimwidth($ob->title, 0, 22, "..."); ?></a></h5>
+                                    <span class="price"><?php echo $ob->price; ?></span>
+                                </div>
+
+                            </div>
+                        <?php endforeach; ?>
+
+                    </div>
+                </div>
+            </div>
 
 
 
@@ -267,7 +315,7 @@
 
 
             <!-- Lower Footer -->
-<?php $this->load->view('partials/top-footer'); ?>
+            <?php $this->load->view('partials/top-footer'); ?>
             <!-- Footer -->
 
 
@@ -279,7 +327,7 @@
         <!-- Container -->
         <script>
             $(function () {
-                base_url="<?php echo base_url();?>";
+                base_url = "<?php echo base_url(); ?>";
                 $('.show_mobile').click(function () {
                     $(this).hide();
                     $('#mobile_placeholder').remove();
@@ -292,14 +340,14 @@
                     $('.add_report').slideDown();
                 });
 
-              $("#smart-form-report").on("submit", function (e) {
-            e.preventDefault();
-            $report;
-        });
-              $("#smart-form-message").on("submit", function (e) {
-            e.preventDefault();
-            $message;
-        });
+                $("#smart-form-report").on("submit", function (e) {
+                    e.preventDefault();
+                    $report;
+                });
+                $("#smart-form-message").on("submit", function (e) {
+                    e.preventDefault();
+                    $message;
+                });
 
                 var $report = $("#smart-form-report").validate({
                     errorElement: 'div',
@@ -329,13 +377,13 @@
                             minlength: 3,
                             maxlength: 20
                         },
-//                },
-//                passwordConfirm: {
-//                    required: true,
-//                    minlength: 3,
-//                    maxlength: 20,
-//                    equalTo: '#password'
-//                },
+                        //                },
+                        //                passwordConfirm: {
+                        //                    required: true,
+                        //                    minlength: 3,
+                        //                    maxlength: 20,
+                        //                    equalTo: '#password'
+                        //                },
                     },
                     // Messages for form validation
                     messages: {
@@ -363,21 +411,21 @@
                         },
                     },
                     submitHandler: function (form) {
-                       $.post(base_url+'home/report/',$('#smart-form-report').serialize(), function(){
-                           $('.add_report').slideUp();
-                           $('.success-message').show();
-                       }).fail(function(){
-                           
-                       });
-                           
+                        $.post(base_url + 'home/report/', $('#smart-form-report').serialize(), function () {
+                            $('.add_report').slideUp();
+                            $('.success-message').show();
+                        }).fail(function () {
+
+                        });
+
                     },
                     // Do not change code below
                     errorPlacement: function (error, element) {
                         error.insertAfter(element.parent());
-                       
+
                     }
                 });
-                
+
                 var $message = $("#smart-form-message").validate({
                     errorElement: 'div',
                     error: function (label) {
@@ -406,13 +454,13 @@
                             minlength: 3,
                             maxlength: 20
                         },
-//                },
-//                passwordConfirm: {
-//                    required: true,
-//                    minlength: 3,
-//                    maxlength: 20,
-//                    equalTo: '#password'
-//                },
+                        //                },
+                        //                passwordConfirm: {
+                        //                    required: true,
+                        //                    minlength: 3,
+                        //                    maxlength: 20,
+                        //                    equalTo: '#password'
+                        //                },
                     },
                     // Messages for form validation
                     messages: {
@@ -440,18 +488,18 @@
                         },
                     },
                     submitHandler: function (form) {
-                       $.post(base_url+'home/message/',$('#smart-form-message').serialize(), function(){
-                           $('._message').slideUp();
-                           $('.success-message').show();
-                       }).fail(function(){
-                           
-                       });
-                           
+                        $.post(base_url + 'home/message/', $('#smart-form-message').serialize(), function () {
+                            $('._message').slideUp();
+                            $('.success-message').show();
+                        }).fail(function () {
+
+                        });
+
                     },
                     // Do not change code below
                     errorPlacement: function (error, element) {
                         error.insertAfter(element.parent());
-                       
+
                     }
                 });
 
@@ -459,7 +507,7 @@
             });
         </script>
 
-<?php $this->load->view('partials/footer'); ?>
+        <?php $this->load->view('partials/footer'); ?>
 
 
     </body>
