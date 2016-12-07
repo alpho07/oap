@@ -27,7 +27,7 @@ class Home extends MY_Controller {
         if ($this->input->get('page')) {
             $page = $this->input->get('page');
         } else {
-            $page = 1;
+            $page = 0;
         }
         if ($view == 'list') {
             $data['content'] = 'pages/list';
@@ -35,8 +35,8 @@ class Home extends MY_Controller {
             $data['title'] = "OOP The best obituary classifieds";
             $data['listview'] = 'all/?view=list&page=' . $this->input->get('page');
             $data['gridview'] = 'all/?view=grid&page=' . $this->input->get('page');
-            $data['flist'] = $this->_API->getNormalAdsList(18, $page);
-            $data['pages'] = $this->pagination('Home', 'all', $view, $page, 18, 'normal_ad');
+            $data['flist'] = $this->_API->getNormalAdsList(20, $page);
+            $data['pages'] = $this->pagination('Home', 'all', $view, $page, 20, 'normal_ad');
         } else {
             $data['content'] = 'pages/adgrid';
             $data['ptitle'] = "Ads -> Grid View";
@@ -54,7 +54,7 @@ class Home extends MY_Controller {
         if ($this->input->get('page')) {
             $page = $this->input->get('page');
         } else {
-            $page = 1;
+            $page = 0;
         }
         if ($view == 'list') {
             $data['content'] = 'pages/obituarylist';
@@ -78,17 +78,17 @@ class Home extends MY_Controller {
 
     public function UserDashboard() {
         if ($this->session->userdata('user_id') == TRUE) {
-        $data['content'] = 'pages/userdashboard';
-        $data['ptitle'] = "User -> Dashboard";
-        $data['title'] = "My Dashboard";
-      
-        $data['ads'] = $this->_API->getAllUserAds();
-         
-        $data['messages']=  $this->_API->loadMessages();
-        $data['mcount']=  $this->_API->unreadMessages();
-        $data['udet']=  $this->_API->getUserDetails();
-        $this->load->view('pages/userdashboard', $data);
-        }else{
+            $data['content'] = 'pages/userdashboard';
+            $data['ptitle'] = "User -> Dashboard";
+            $data['title'] = "My Dashboard";
+
+            $data['ads'] = $this->_API->getAllUserAds();
+
+            $data['messages'] = $this->_API->loadMessages();
+            $data['mcount'] = $this->_API->unreadMessages();
+            $data['udet'] = $this->_API->getUserDetails();
+            $this->load->view('pages/userdashboard', $data);
+        } else {
             redirect('auth/authorize/');
         }
     }
@@ -101,15 +101,18 @@ class Home extends MY_Controller {
     }
 
     function loadSingle($id, $pe) {
+        $this->_API->setVisitorCountAd($id);
         $data['ptitle'] = "Ads Single";
         $data['title'] = "Ads Highlight";
         $data['pe'] = $pe;
         $data['ver'] = $this->_API->checkArticle('normal_ad', $id);
         $data['info'] = $this->_API->getSingleAd($id);
+        $data['views'] = $this->_API->getCountAd($id);
         $this->load->view('pages/singleview_ad', $data);
     }
 
     function loadprofile($id, $pe) {
+        $this->_API->setVisitorCount($id);
         $data['content'] = 'pages/singleview';
         $data['ptitle'] = "Obituaries Single";
         $data['title'] = "Obituaries Highlight";
@@ -118,6 +121,7 @@ class Home extends MY_Controller {
         $data['ver'] = $this->_API->checkArticle('obituary', $id);
         $data['info'] = $this->_API->getSingleOb($id);
         $data['comments'] = $this->_API->getObComments($id);
+        $data['views'] = $this->_API->getCount($id);
         $this->TemplateBuilder($data);
     }
 
@@ -143,6 +147,7 @@ class Home extends MY_Controller {
     }
 
     function postada() {
+         $this->isAuthorized();
         $data['content'] = 'pages/postad_1';
         $data['ptitle'] = "Post Ad";
         $data['title'] = "Post Ad";
@@ -150,6 +155,7 @@ class Home extends MY_Controller {
     }
 
     function postobituarya() {
+        $this->isAuthorized();
         $data['content'] = 'pages/obituary_1';
         $data['ptitle'] = "Post Obituary";
         $data['title'] = "Post Obituary";
@@ -157,6 +163,7 @@ class Home extends MY_Controller {
     }
 
     function edits($id, $pe) {
+         $this->isAuthorized();
         $data['content'] = 'pages/postad_edit';
         $data['ptitle'] = "Edit Ad";
         $data['title'] = "Edit Ad";
@@ -167,6 +174,7 @@ class Home extends MY_Controller {
     }
 
     function editpf($id, $pe) {
+         $this->isAuthorized();
         $data['content'] = 'pages/obituary_edit';
         $data['ptitle'] = "Edit Obituary";
         $data['title'] = "Edit Obituary";
@@ -249,7 +257,7 @@ class Home extends MY_Controller {
 
             $filedata = $this->upload->data();
 
-            $uid = 'USR'.date('YdmHis');
+            $uid = 'USR' . date('YdmHis');
 
             $addata = array(
                 'title' => $this->_POST('addtitle'),
@@ -265,7 +273,7 @@ class Home extends MY_Controller {
 
 
             $user = array(
-                'id'=> $uid,
+                'id' => $uid,
                 'name' => $this->_POST('fullname'),
                 'phone' => $this->_POST('phone'),
                 'email' => $this->_POST('email'),
@@ -297,11 +305,11 @@ class Home extends MY_Controller {
             'message' => $this->_POST('rmessage'),
             'subject' => $this->_POST('rsubject'),
             'ad_id' => $this->_POST('ad_id'),
-          
         );
-        
+
         $this->saveData('reports', $data);
     }
+
     function message() {
         $data = array(
             'name' => $this->_POST('name'),
@@ -310,17 +318,14 @@ class Home extends MY_Controller {
             'subject' => $this->_POST('subject'),
             'ad_id' => $this->_POST('ad_id'),
             'user_id' => $this->get_user(),
-          
         );
-        
+
         $this->saveData('inbox', $data);
     }
-    
-  
-    
-    function get_user(){
+
+    function get_user() {
         $ad = $this->_POST('ad_id');
-        $query = $this->db->select('user_id')->where('id',$ad)->get('normal_ad')->result();
+        $query = $this->db->select('user_id')->where('id', $ad)->get('normal_ad')->result();
         return $query[0]->user_id;
     }
 
@@ -350,11 +355,12 @@ class Home extends MY_Controller {
 
             $filedata = $this->upload->data();
 
-             $uid = 'USR'.date('YdmHis');
+            $uid = 'USR' . date('YdmHis');
             $addata = array(
                 'title' => $this->_POST('obtitle'),
                 'obtitle' => $this->_POST('addtitle'),
                 'category' => $this->_POST('category'),
+                'more_info' => $this->_POST('more_info'),
                 'dob' => $this->_POST('dob'),
                 'dod' => $this->_POST('dod'),
                 'description' => $this->_POST('description'),
@@ -367,7 +373,7 @@ class Home extends MY_Controller {
 
 
             $user = array(
-                'id'=>$uid,
+                'id' => $uid,
                 'name' => $this->_POST('fullname'),
                 'phone' => $this->_POST('phone'),
                 'email' => $this->_POST('email'),
@@ -392,6 +398,7 @@ class Home extends MY_Controller {
                 'title' => $this->_POST('obtitle'),
                 'obtitle' => $this->_POST('addtitle'),
                 'category' => $this->_POST('category'),
+                'more_info' => $this->_POST('more_info'),
                 'dob' => $this->_POST('dob'),
                 'dod' => $this->_POST('dod'),
                 'description' => $this->_POST('description'),
@@ -430,6 +437,7 @@ class Home extends MY_Controller {
                     'category' => $this->_POST('category'),
                     'dob' => $this->_POST('dob'),
                     'dod' => $this->_POST('dod'),
+                    'more_info' => $this->_POST('more_info'),
                     'description' => $this->_POST('description'),
                     'image_path' => 'uploads/' . $filedata['orig_name'],
                     'region' => $this->_POST('region'),
@@ -440,19 +448,18 @@ class Home extends MY_Controller {
             }
         }
     }
-    
-    function updateUserDetails(){
-             $addata = array(
-                'name' => $this->_POST('name'),
-                'email' => $this->_POST('email'),
-                'phone' => $this->_POST('phone'),          
-            );
-            $this->Update($this->session->userdata('user_id'), 'users', $addata);
-        
+
+    function updateUserDetails() {
+        $addata = array(
+            'name' => $this->_POST('name'),
+            'email' => $this->_POST('email'),
+            'phone' => $this->_POST('phone'),
+        );
+        $this->Update($this->session->userdata('user_id'), 'users', $addata);
     }
-    
-    function removeUserAccounts(){
-         $this->DeleteAccount($this->session->userdata('user_id'), 'users');
+
+    function removeUserAccounts() {
+        $this->DeleteAccount($this->session->userdata('user_id'), 'users');
     }
 
     public function adedit($id, $pe) {
@@ -542,6 +549,8 @@ class Home extends MY_Controller {
                 'description' => $this->_POST('description'),
                 'image_path' => 'uploads/' . $filedata['orig_name'],
                 'date_posted' => date('d-m-Y'),
+                                'more_info' => $this->_POST('more_info'),
+
                 'region' => $this->_POST('region'),
                 'user_id' => $this->session->userdata('user_id'),
             );
@@ -591,14 +600,6 @@ class Home extends MY_Controller {
         $this->Delete($id, 'normal_ad');
     }
 
-    function obactivate($id) {
-        $this->Activate($id, 'obituary');
-    }
-
-    function obdeactivate($id) {
-        $this->Deactivate($id, 'obituary');
-    }
-
     function adactivate($id) {
         $this->Activate($id, 'normal_ad');
     }
@@ -606,5 +607,7 @@ class Home extends MY_Controller {
     function adeactivate($id) {
         $this->Deactivate($id, 'normal_ad');
     }
+
+  
 
 }

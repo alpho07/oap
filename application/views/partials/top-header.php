@@ -152,7 +152,7 @@
 
 
                                 </ul>
-
+                                <form id="search" method="post" action="<?php echo base_url();?>search/query">
                                 <div id="search-bar" >
 
                                     <div class="col-lg-12 col-md-12 col-sm-12">
@@ -160,16 +160,15 @@
                                             <tr>
                                                 <td class="search-column-1">
                                                     <p><span class="grey">Popular Searches:</span> <a href="#">Obituaries</a>, <a href="#">Caskets</a>, <a href="#">Pathologists</a>, <a href="#">Hospitals</a>, <a href="#">Flowers</a></p>
-                                                    <input type="text" placeholder="Enter your keyword">
+                                                    <input type="text" name="keyword" placeholder="Enter your keyword">
                                                 </td>
                                                 <td class="search-column-2">
                                                     <p class="align-right"><a href="#">&nbsp;</a></p>
-                                                    <select class="chosen-select-search">
-                                                        <option>Obituaries</option>
-                                                        <option>Caskets</option>
-                                                        <option>Pathologists</option>
-                                                        <option>Hospitals</option>
-                                                        <option>All Categories</option>
+                                                    <select class="chosen-select-search" name="category">
+                                                        <option value="">All Categories</option>
+                                                        <?php foreach($categories as $c):?>
+                                                        <option value="<?php echo $c->id;?>"><?php echo $c->name;?></option>
+                                                    <?php endforeach;?>
                                                     </select>
                                                 </td>
                                             </tr>
@@ -180,6 +179,7 @@
                                         <i class="icons icon-search-1"></i>
                                     </div>
                                 </div>
+                                </form>
 
                             </nav>
                             <!-- /Main Navigation -->

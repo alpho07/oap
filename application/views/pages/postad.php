@@ -15,7 +15,7 @@
 }
 </style>
 <div class="row">
-    <form id="smart-form" method="POST" enctype='multipart/form-data' action="<?php echo base_url().'/home/CreateNewAd/'.  base64_encode('newAdd');?>">
+    <form id="smart-form" method="POST" enctype='multipart/form-data' action="<?php echo base_url().'home/CreateNewAd/'.  base64_encode('newAdd');?>">
 
         <div class="col-lg-12 col-md-12 col-sm-12 register-account">
 
@@ -105,6 +105,7 @@
                     </div>
                     <div class="col-lg-8 col-md-8 col-sm-8">
                         <input required type="password" name="password" id="password">
+                        <span><small>Please not that this is the password you will use for login</small></span>
                     </div>	
 
                 </div>

@@ -15,7 +15,7 @@
 }
 </style>
 <div class="row">
-    <form id="smart-form" method="POST" enctype='multipart/form-data' action="<?php echo base_url().'/home/do_Obuploada/nQo122jq2'  ;?>">
+    <form id="smart-form" method="POST" enctype='multipart/form-data' action="<?php echo base_url().'home/do_Obuploada/nQo122jq2'  ;?>">
 
         <div class="col-lg-12 col-md-12 col-sm-12 register-account">
 
@@ -96,12 +96,23 @@
                     </div>	
 
                 </div>
+                
+                    <div class="row">
+
+                    <div class="col-lg-4 col-md-4 col-sm-4">
+                        <p>More Info</p>
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-sm-8">
+                        <textarea name="more_info" id="more_info" required placeholder="e.g. Arranged meeting place, paybill number for money collection and mini program" ><?php echo isset($_POST['more_info']) ? $_POST['more_info'] : '' ?></textarea>
+                    </div>	
+
+                </div>
 
                 <hr>
                 <div class="row">
 
                     <div class="col-lg-4 col-md-4 col-sm-4">
-                        <p>Deceased Potrait</p>
+                        <p>Deceased Portrait</p>
                     </div>
                     <div class="col-lg-8 col-md-8 col-sm-8">
                         <div class="" style="color:red; font-weight: bold; " > <?php echo @$error;?></div>

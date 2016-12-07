@@ -14,6 +14,7 @@ class MY_Controller extends CI_Controller {
     private $_smskey = '4824103407c20a26c3dca5b5888b7fffd5f952060ebc07dd59e57d2fde5b9e2d';
 
     function __construct() {
+         $this->allow_get_array = TRUE;
         parent::__construct();
         $this->_API = new API;
         $this->_Auth = new User_authentication;
@@ -33,8 +34,13 @@ class MY_Controller extends CI_Controller {
 
         $this->email->initialize($config);
     }
-    
-  
+    function isAuthorized(){
+             if ($this->session->userdata('user_id') == TRUE ) {
+            
+        } else {
+            redirect('/');
+        }
+    }
 
     function sendUMAIL($email, $name, $package) {
         $message = "Hello $name,<br> Your SMARTSchema Account upgrade to  <strong>" . $package . "</strong> has successfully completed.";
@@ -46,9 +52,8 @@ class MY_Controller extends CI_Controller {
         $this->email->send();
         //echo $this->email->print_debugger();
     }
-    
-    
-     function sendPText($phone, $name, $code) {
+
+    function sendPText($phone, $name, $code) {
 
         $new = substr($phone, 1);
 
@@ -70,7 +75,6 @@ class MY_Controller extends CI_Controller {
             echo "Encountered an error while sending: " . $e->getMessage();
         }
     }
-    
 
     function pagination($controller, $method, $id, $view = 'grid', $per_page, $table) {
         if ($this->input->get('view')) {
@@ -110,6 +114,50 @@ class MY_Controller extends CI_Controller {
         $this->pagination->initialize($config);
         return $this->pagination->create_links();
     }
+    
+    
+      function spagination($controller, $method, $id, $view = 'grid', $per_page, $table,$query,$offset) {
+        if ($this->input->get('view',TRUE)) {
+            $view = $this->input->get('view',TRUE);
+        } else {
+            $view = 'grid';
+        }
+        $config['base_url'] = base_url() . '/' . $controller . '/' . $method . "/".$id."/?view=$view";
+        $config['total_rows'] = $this->_API->getSearchCount($query);
+        $config['per_page'] = $per_page;
+        $config['use_page_numbers'] = TRUE;
+        $config['uri_segment'] = 3;
+        $config['num_links'] = 6;
+        $config['page_query_string'] = TRUE;
+        $config['query_string_segment'] = 'page';
+        $config['full_tag_open'] = '<div><ul class="pagination">';
+        $config['full_tag_close'] = '</ul></div><!--pagination-->';
+        $config['first_link'] = '&laquo; First';
+        $config['first_tag_open'] = '<li class="prev page">';
+        $config['first_tag_close'] = '</li>';
+        $config['last_link'] = 'Last &raquo;';
+        $config['last_tag_open'] = '<li class="next page">';
+        $config['last_tag_close'] = '</li>';
+        $config['next_link'] = 'Next &rarr;';
+        $config['next_tag_open'] = '<li class="next page">';
+        $config['next_tag_close'] = '</li>';
+        $config['prev_link'] = '&larr; Previous';
+        $config['prev_tag_open'] = '<li class="prev page">';
+        $config['prev_tag_close'] = '</li>';
+        $config['cur_tag_open'] = '<li class="active"><a href="">';
+        $config['cur_tag_close'] = '</a></li>';
+        $config['num_tag_open'] = '<li class="page">';
+        $config['num_tag_close'] = '</li>';
+
+        $config['anchor_class'] = 'follow_link';
+
+        $this->pagination->initialize($config);
+        return $this->pagination->create_links();
+    }
+    
+    
+    
+    
 
     function saveData($table, $data) {
         $this->_API->Save($table, $data);
@@ -135,8 +183,42 @@ class MY_Controller extends CI_Controller {
         $this->_API->Delete($id, $table);
         redirect('home/userdashboard');
     }
-    
-      function DeleteAccount($id, $table) {
+
+    function adminAdActivate($id, $table) {
+        $data = array('admin_status' => '1');
+        $this->_API->Activate($id, $table, $data);
+        redirect('admin/ads');
+    }
+
+    function adminAdDeactivate($id, $table) {
+        $data = array('admin_status' => '0');
+        $this->_API->Deactivate($id, $table, $data);
+        redirect('admin/ads');
+    }
+
+    function adminAdDelete($id, $table) {
+        $this->_API->Delete($id, $table);
+        redirect('admin/ads');
+    }
+
+    function adminObActivate($id, $table) {
+        $data = array('admin_status' => '1');
+        $this->_API->Activate($id, $table, $data);
+        redirect('admin/obituaries');
+    }
+
+    function adminObDeactivate($id, $table) {
+        $data = array('admin_status' => '0');
+        $this->_API->Deactivate($id, $table, $data);
+        redirect('admin/obituaries');
+    }
+
+    function adminObDelete($id, $table) {
+        $this->_API->Delete($id, $table);
+        redirect('admin/obituaries');
+    }
+
+    function DeleteAccount($id, $table) {
         $this->_API->Delete($id, $table);
         $this->_Auth->kill_session();
     }
@@ -150,6 +232,7 @@ class MY_Controller extends CI_Controller {
     }
 
     function TemplateBuilder($data) {
+        $data['categories']=  $this->_API->getData('categories');
         $this->load->view('_layout', $data);
     }
 

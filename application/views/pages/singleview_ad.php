@@ -71,7 +71,7 @@
                                     </div>
                                 </div>
 
-                                <p><a href=""><i class="fa fa-heart-o "></i> Mark as favourite</a> | <a href=""><i class="fa fa-print "></i> Print</a> |  <?php if ($this->session->userdata('user_id') == TRUE && $ver > 0) { ?>
+                                <p><a href=""><i class="fa fa-heart-o "></i> Mark as favourite</a> | <a href=""><i class="fa fa-print "></i> Print</a>  |  <span><i class="fa fa-eye "></i> <?php echo $views;?>Views</span>   <?php if ($this->session->userdata('user_id') == TRUE && $ver > 0) { ?>
                                         <a href="<?php echo base_url() . 'home/edits/' . $info[0]->id . '/' . str_replace(" ", "-", $info[0]->title); ?>" class="btn btn-success" style="margin: 20px;"><i class="fa fa-edit"></i> Edit
 <?php } else {
     echo '';
@@ -100,7 +100,7 @@
                         <div class="col-lg-5 col-md-5 col-sm-5 success-message" style="display:none;">
                             <div class=" alert-success" style="padding: 10px; border: 1px solid; border-radius: 2px;"><i class="fa fa-info-circle" ></i> Message received, thank you!</div> 
                         </div>
-                        <div class="col-lg-5 col-md-5 col-sm-5 ad_message" style="display:inline-block !important;">
+                        <div class="col-lg-5 col-md-5 col-sm-5 _message " id="_message" >
 
                             <div class="carousel-heading no-margin">
                                 <h4>Message</h4>
@@ -288,7 +288,7 @@
 
                 $('.reporterButton').click(function () {
                     $(this).hide();
-                    $('.ad_message').slideUp();
+                    $('._message').slideUp();
                     $('.add_report').slideDown();
                 });
 
@@ -441,7 +441,7 @@
                     },
                     submitHandler: function (form) {
                        $.post(base_url+'home/message/',$('#smart-form-message').serialize(), function(){
-                           $('.ad_message').slideUp();
+                           $('._message').slideUp();
                            $('.success-message').show();
                        }).fail(function(){
                            

@@ -1,4 +1,7 @@
+    <script src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=places&key=AIzaSyCX2JkDRJ9icWnebmRQffe8b2tOYSbu-Ho&region=KE"></script>
+
 <!-- JavaScript -->
+<script src="<?php echo base_url(); ?>js/jquery.geocomplete.min.js"></script>
 <script src="<?php echo base_url(); ?>js/modernizr.min.js"></script>
 
 <script type="text/javascript" src="<?php echo base_url(); ?>js/jquery.raty.min.js"></script>

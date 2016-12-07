@@ -149,36 +149,36 @@
                                                         <td><?php echo $ad->user; ?></td>
                                                         <td><?php echo $ad->date_posted; ?></td>
                                                         <td> <?php if ($ad->category == '1') { ?>
-                                                                <a class="btn btn-primary" href="<?php echo base_url() . 'admin/editpf/' . $ad->id . '/' . str_replace(" ", "-", $ad->title); ?>"><i class="fa fa-edit"></i> Edit</a>
+                                                                <a class="btn btn-primary" href="<?php echo base_url() . 'home/editpf/' . $ad->id . '/' . str_replace(" ", "-", $ad->title); ?>"><i class="fa fa-edit"></i> Edit</a>
                                                             <?php } else { ?>
-                                                                <a class="btn btn-primary" href="<?php echo base_url() . 'admin/edits/' . $ad->id . '/' . str_replace(" ", "-", $ad->title); ?>"><i class="fa fa-edit"></i> Edit</a>
+                                                                <a class="btn btn-primary" href="<?php echo base_url() . 'home/edits/' . $ad->id . '/' . str_replace(" ", "-", $ad->title); ?>"><i class="fa fa-edit"></i> Edit</a>
 
                                                             <?php } ?> </td>
                                                         <td>
 
                                                             <?php if ($ad->category == '1') { ?>
-                                                                <a class="btn btn-danger" href="<?php echo base_url() . 'admin/delob/' . $ad->id; ?>"><i class="fa fa-trash"></i> Delete</a></td>
+                                                                <a class="btn btn-danger" href="<?php echo base_url() . 'admin/obdelete/' . $ad->id; ?>"><i class="fa fa-trash"></i> Delete</a></td>
                                                         <?php } else { ?>
-                                                    <a class="btn btn-danger" href="<?php echo base_url() . 'admin/delad/' . $ad->id; ?>"><i class="fa fa-trash"></i> Delete</a></td>
+                                                    <a class="btn btn-danger" href="<?php echo base_url() . 'admin/obdelete/' . $ad->id; ?>"><i class="fa fa-trash"></i> Delete</a></td>
 
                                                 <?php } ?> 
 
                                                 <td> <?php if ($ad->category == '1') { ?>
-                                                        <?php if ($ad->user_status == '1') { ?>
-                                                            <a class="btn btn-warning" href="<?php echo base_url() . 'admin/obdeactivate/' . $ad->id; ?>"><i class="fa fa-power-off"></i> Approve</a>     
+                                                        <?php if ($ad->admin_status == '1') { ?>
+                                                            <a class="btn btn-warning" href="<?php echo base_url() . 'admin/obdeactivate/' . $ad->id; ?>"><i class="fa fa-power-off"></i> Invalidate</a>     
 
 
                                                         <?php } else { ?>
-                                                            <a class="btn btn-success" href="<?php echo base_url() . 'admin/obactivate/' . $ad->id; ?>"><i class="fa fa-arrow-up"></i> Decline</a>
+                                                            <a class="btn btn-success" href="<?php echo base_url() . 'admin/obactivate/' . $ad->id; ?>"><i class="fa fa-arrow-up"></i> Approve</a>
 
                                                         <?php } ?> 
                                                     <?php } else { ?>
                                                         <?php if ($ad->user_status == '1') { ?>
-                                                            <a class="btn btn-warning" href="<?php echo base_url() . 'admin/adeactivate/' . $ad->id; ?>"><i class="fa fa-power-off"></i> Approve</a>     
+                                                            <a class="btn btn-warning" href="<?php echo base_url() . 'admin/adeactivate/' . $ad->id; ?>"><i class="fa fa-power-off"></i> Invalidate</a>     
 
 
                                                         <?php } else { ?>
-                                                            <a class="btn btn-success" href="<?php echo base_url() . 'admin/adactivate/' . $ad->id; ?>"><i class="fa fa-arrow-up"></i> Decline</a>
+                                                            <a class="btn btn-success" href="<?php echo base_url() . 'admin/adactivate/' . $ad->id; ?>"><i class="fa fa-arrow-up"></i> Approve</a>
 
                                                         <?php } ?> 
                                                     <?php } ?> 

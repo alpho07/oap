@@ -15,7 +15,7 @@
 }
 </style>
 <div class="row">
-    <form id="smart-form" method="POST" enctype='multipart/form-data' action="<?php echo base_url().'/home/adedit/'.$id.'/'.$pe.'/'.  base64_encode('newAdd');?>">
+    <form id="smart-form" method="POST" enctype='multipart/form-data' action="<?php echo base_url().'home/adedit/'.$id.'/'.$pe.'/'.  base64_encode('newAdd');?>">
 
         <div class="col-lg-12 col-md-12 col-sm-12 register-account">
 

@@ -16,10 +16,14 @@ class API extends CI_Model {
     function Save($table, $data) {
         $resp = $this->db->insert($table, $data);
         if ($resp):
-            echo 'Save Complete';
+
         else:
             echo $this->db->_error_message();
         endif;
+    }
+
+    function getData($table) {
+        return $this->db->get($table)->result();
     }
 
     function Update($id, $table, $data) {
@@ -39,16 +43,17 @@ class API extends CI_Model {
     }
 
     function getUsers() {
-        
+
         return $this->db->get('users')->result();
     }
-    
+
     function getUserDetails() {
-           $id = $this->session->userdata('user_id');
-        return $this->db->where('id',$id)->get('users')->result();
+        $id = $this->session->userdata('user_id');
+        return $this->db->where('id', $id)->get('users')->result();
     }
+
     function getPremiumAds() {
-        return $this->db->order_by('id','asc')->get('premium_ad')->result();
+        return $this->db->order_by('id', 'asc')->get('premium_ad')->result();
     }
 
     function getAllUserAdsAdmin() {
@@ -73,7 +78,7 @@ class API extends CI_Model {
     }
 
     function getPayments() {
-         return $this->db->query("SELECT * 
+        return $this->db->query("SELECT * 
               FROM payments p, users u 
               WHERE u.id=p.user_id 
               ORDER BY p.id DESC
@@ -89,32 +94,33 @@ class API extends CI_Model {
         $id = $this->session->userdata('user_id');
         return $this->db->where('user_id', $id)->where('read', '0')->get('inbox')->num_rows();
     }
-    
-     function unSolved() {
-        return $this->db->where('solved', '0')->order_by('id','desc')->get('reports')->num_rows();
+
+    function unSolved() {
+        return $this->db->where('solved', '0')->order_by('id', 'desc')->get('reports')->num_rows();
     }
 
     function getUserAds($uid) {
-        return $this->db->query("SELECT ad.id,ad.title,ad.image_path,ad.date_posted,ad.user_status,ad.admin_status,c.name 
+        return $this->db->query(" SELECT * FROM( SELECT ad.id,ad.title,ad.image_path,ad.date_posted,ad.user_status,ad.admin_status,c.name 
               FROM normal_ad ad, categories c 
               WHERE user_id=$uid 
               AND c.id=ad.category  
               UNION SELECT ad.id,ad.title,ad.image_path,ad.date_posted,ad.user_status,ad.admin_status,c.name 
               FROM obituary ad, categories c 
               WHERE user_id=$uid 
-              AND c.id=ad.category")->result();
+              AND c.id=ad.category  )res ORDER BY id DESC")->result();
     }
 
     function getAllUserAds() {
         $id = $this->session->userdata('user_id');
-        return $this->db->query("SELECT ad.id,ad.category,ad.title,ad.image_path,ad.date_posted,ad.user_status,ad.admin_status,c.name 
+        return $this->db->query("
+             SELECT * FROM( SELECT ad.id,ad.category,ad.title,ad.image_path,ad.date_posted,ad.user_status,ad.admin_status,c.name 
               FROM normal_ad ad, categories c 
               WHERE c.id=ad.category 
               AND user_id ='$id'
               UNION SELECT ad.id,ad.category,ad.title,ad.image_path,ad.date_posted,ad.user_status,ad.admin_status,c.name 
               FROM obituary ad, categories c 
               WHERE  c.id=ad.category
-              AND user_id ='$id' ")->result();
+              AND user_id ='$id' )res ORDER BY id DESC ")->result();
     }
 
     function getNormalAdsFeatured() {
@@ -126,7 +132,7 @@ class API extends CI_Model {
             union all (select * from normal_ad where category = '4' order by id desc limit 3)
             union all (select * from normal_ad where category = '5' order by id desc limit 3)
             union all (select * from normal_ad where category = '6' order by id desc limit 3))
-            res ORDER BY id DESC                
+            res WHERE res.user_status='1' AND res.admin_status='1' ORDER BY res.id DESC                
            ")->result();
 
         return $query;
@@ -135,13 +141,13 @@ class API extends CI_Model {
     function getNormalAdsList($limit, $offset) {
         $query = $this->db->query("
             SELECT * FROM( 
-            (select * from normal_ad where category = '1' order by id desc )
+            (select * from normal_ad where category = '1'  order by id desc )
             union all (select * from normal_ad where category = '2' order by id desc )
             union all (select * from normal_ad where category = '3' order by id desc ) 
             union all (select * from normal_ad where category = '4' order by id desc)
             union all (select * from normal_ad where category = '5' order by id desc)
             union all (select * from normal_ad where category = '6' order by id desc))
-            res ORDER BY id DESC LIMIT $limit OFFSET $offset               
+            res WHERE res.user_status='1' AND res.admin_status='1' ORDER BY res.id DESC LIMIT $limit OFFSET $offset               
            ")->result();
 
         return $query;
@@ -149,7 +155,7 @@ class API extends CI_Model {
 
     function getObituary($limit, $offset) {
         $query = $this->db->query("
-            SELECT * FROM obituary
+            SELECT * FROM obituary WHERE user_status='1' AND admin_status='1'
              ORDER BY id DESC LIMIT $limit OFFSET $offset               
            ")->result();
 
@@ -157,11 +163,11 @@ class API extends CI_Model {
     }
 
     function getTotal($table) {
-        return $this->db->get($table)->num_rows();
+        return $this->db->where('user_status', '1')->where('admin_status', '1')->get($table)->num_rows();
     }
 
     function getAllObs() {
-        return $this->db->order_by('id', 'desc')->limit(5)->get('obituary')->result();
+        return $this->db->where('user_status', '1')->where('admin_status', '1')->order_by('id', 'desc')->limit(5)->get('obituary')->result();
     }
 
     function checkArticle($table, $aid) {
@@ -184,5 +190,70 @@ class API extends CI_Model {
               AND u.id = ad.user_id
               AND ad.id='$id'")->result();
     }
+
+    function getUserIP() {
+        return $_SERVER['REMOTE_ADDR'];
+    }
+
+    function setVisitorCount($id) {
+        $check = $this->db->where('page', $id)->where('userip', $this->getUserIP())->get('pageview')->num_rows();
+        if ($check > 0):
+
+        else:
+            $this->Save('pageview ', array('page' => $id, 'userip' => $this->getUserIP()));
+
+        endif;
+    }
+
+    function getCount($id) {
+        return $this->db->where('page', $id)->get('pageview')->num_rows();
+    }
+
+    function setVisitorCountAd($id) {
+        $check = $this->db->where('page', $id)->where('userip', $this->getUserIP())->get('adviews')->num_rows();
+        if ($check > 0):
+
+        else:
+            $this->Save('adviews', array('page' => $id, 'userip' => $this->getUserIP()));
+
+        endif;
+    }
+
+    function getCountAd($id) {
+        return $this->db->where('page', $id)->get('adviews')->num_rows();
+    }
+
+    function getSearchResults( $query, $limit, $offset) {
+      
+       
+   if (strlen($query['keyword'])) {
+            $kw=$query['keyword'];
+        }
+        if (strlen($query['category'])) {
+           $ca =$query['category'];
+        }
+        $q = $this->db->query("SELECT * FROM `normal_ad` WHERE `title` LIKE '%$kw%' ESCAPE '!' AND `category` = '$ca' ORDER BY `id` DESC LIMIT $limit OFFSET $offset")->result(); 
+        return $q;
+    }
+    
+       function getSearchCount($query) {   
+      
+        $q = $this->db->select('COUNT(*) count')
+                ->from('normal_ad');
+        if (strlen($query['keyword'])) {
+            $q->like('title',$query['keyword']);
+        }
+        if (strlen($query['category'])) {
+            $q->where('category',$query['category']);
+        }
+        $res=$q->get()->result();
+        
+        if(!empty($res)):
+            return $res[0]->count;
+            else:
+            return 0;
+        endif;
+    }
+    
 
 }

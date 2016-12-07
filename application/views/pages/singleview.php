@@ -19,7 +19,7 @@
     <div class="row">
 
         <!-- Product Images Carousel -->
-        <div class="col-lg-4 col-md-4 col-sm-4 product-single-image">
+        <div class="col-lg-4 col-md-4 col-sm-4 product-single-image" >
 
            <section class="sidebar-slider">
             <div class="sidebar-flexslider">
@@ -48,8 +48,9 @@
             <a class="btn btn-success pull-right" style="margin: 20px;" href="<?php echo base_url().'home/editpf/'.$info[0]->id.'/'.str_replace(" ", "-", $info[0]->obtitle);?>"><i class="fa fa-edit"></i> Edit</a>
             <?php }else{ echo '';}?>            
             <h2><?php echo $info[0]->title;?></h2>
+            <br>
             <div class="rating-box">             
-                2 Visitors(s)
+                <?php echo $views;?> Visitors(s)
             </div>
             <table>
                 <tr>
@@ -70,7 +71,8 @@
             <div class="product-actions">
                 <strong><em><u>More Information</u></em></strong>
                 <p style="color:black !important;">
-                  e.g  Meeting place, paybill number
+                   <?php echo $info[0]->more_info;?>
+                           
                 </p>
                
             </div>
@@ -112,7 +114,7 @@
                 <!-- Item -->
                 <li>
                     <div class="accordion-header">
-                        <h4>Comments</h4>
+                        <h4>Condolence Book</h4>
                         <span class="accordion-button">
                             <i class="icons icon-plus-1"></i>
                         </span>

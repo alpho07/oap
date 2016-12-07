@@ -1,72 +1,100 @@
 <?php
 
-
-
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Admin extends MY_Controller {
 
     private $_Auth = '';
     private $_API = '';
-    
-        public function __construct() {
+
+    public function __construct() {
         parent::__construct();
         if ($this->session->userdata('user_id') == TRUE && $this->session->userdata('type') > 0) {
-        }else{
+            
+        } else {
             redirect('/');
         }
         $this->_Auth = new User_authentication;
         $this->_API = new API;
     }
 
-       public function AdminDashboard() {
+    public function AdminDashboard() {
         $data['content'] = 'pages/admindashboard';
         $data['ptitle'] = "Admin -> Dashboard";
         $data['title'] = "Admin Dashboard";
         $data['ads'] = $this->_API->getUsers();
-        $data['messages']=  $this->_API->loadMessages();
-        $data['mcount']=  $this->_API->unSolved();
+        $data['messages'] = $this->_API->loadMessages();
+        $data['mcount'] = $this->_API->unSolved();
         $this->load->view('pages/admin/admindashboard', $data);
     }
-       public function reports() {
+
+    public function reports() {
         $data['ptitle'] = "Admin -> Dashboard -> Reported Ads";
         $data['title'] = "Admin Dashboard - Reports";
         $data['ads'] = $this->_API->getReportedAds();
-        $data['messages']=  $this->_API->loadMessages();
-        $data['mcount']=  $this->_API->unSolved();
+        $data['messages'] = $this->_API->loadMessages();
+        $data['mcount'] = $this->_API->unSolved();
         $this->load->view('pages/admin/reports', $data);
     }
-       public function ads() {
+
+    public function ads() {
         $data['ptitle'] = "Admin -> Dashboard ->Normal Ads";
         $data['title'] = "Admin Dashboard -> Normal Ads";
         $data['ads'] = $this->_API->getAllUserAdsAdmin();
-        $data['messages']=  $this->_API->loadMessages();
-        $data['mcount']=  $this->_API->unSolved();
+        $data['messages'] = $this->_API->loadMessages();
+        $data['mcount'] = $this->_API->unSolved();
         $this->load->view('pages/admin/normal_ads', $data);
     }
-       public function obituaries() {
+
+    public function obituaries() {
         $data['ptitle'] = "Admin -> Dashboard ->Obituaries";
         $data['title'] = "Admin Dashboard - Obituaries";
         $data['ads'] = $this->_API->getAllUserObsAdmin();
-        $data['messages']=  $this->_API->loadMessages();
-        $data['mcount']=  $this->_API->unSolved();
+        $data['messages'] = $this->_API->loadMessages();
+        $data['mcount'] = $this->_API->unSolved();
         $this->load->view('pages/admin/obituaries', $data);
     }
-       public function premium() {
+
+    public function premium() {
         $data['ptitle'] = "Admin -> Dashboard -> Premium Ads";
         $data['title'] = "Admin Dashboard - Premium Ads";
         $data['ads'] = $this->_API->getPremiumAds();
-        $data['messages']=  $this->_API->loadMessages();
-        $data['mcount']=  $this->_API->unSolved();
+        $data['messages'] = $this->_API->loadMessages();
+        $data['mcount'] = $this->_API->unSolved();
         $this->load->view('pages/admin/premium_ads', $data);
     }
-       public function payments() {
+
+    public function payments() {
         $data['ptitle'] = "Admin -> Dashboard -> Payments";
         $data['title'] = "Admin Dashboard - Payments";
         $data['ads'] = $this->_API->getPayments();
-        $data['messages']=  $this->_API->loadMessages();
-        $data['mcount']=  $this->_API->unSolved();
+        $data['messages'] = $this->_API->loadMessages();
+        $data['mcount'] = $this->_API->unSolved();
         $this->load->view('pages/admin/payments', $data);
     }
-   
+
+    function adactivate($id) {
+        $this->adminAdActivate($id, 'normal_ad');
+    }
+
+    function adeactivate($id) {
+        $this->adminAdDeactivate($id, 'normal_ad');
+    }
+
+    function adelete($id) {
+        $this->adminAdDelete($id, 'normal_ad');
+    }
+
+    function obactivate($id) {
+        $this->adminObActivate($id, 'obituary');
+    }
+
+    function obdeactivate($id) {
+        $this->adminObDeactivate($id, 'obituary');
+    }
+
+    function obdelete($id) {
+        $this->adminObDelete($id, 'obituary');
+    }
+
 }
