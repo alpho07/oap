@@ -32,6 +32,13 @@
             } ?>">
         <a href="<?php echo base_url(); ?>admin/obituaries" >Obituaries</a>
     </li>
+    <li class="<?php if ($this->uri->segment(2) == 'comments') {
+                echo 'active';
+            } else {
+                
+            } ?>">
+        <a href="<?php echo base_url(); ?>admin/comments" >Obituary Comments</a>
+    </li>
     <li class="<?php if ($this->uri->segment(2) == 'premium') {
                 echo 'active';
             } else {

@@ -72,6 +72,15 @@ class Admin extends MY_Controller {
         $data['mcount'] = $this->_API->unSolved();
         $this->load->view('pages/admin/payments', $data);
     }
+    
+    public function comments() {
+        $data['ptitle'] = "Admin -> Dashboard -> Obituary Comments";
+        $data['title'] = "Admin Dashboard - Obituary Comments";
+        $data['ads'] = $this->_API->loadComments();
+        $data['messages'] = $this->_API->loadMessages();
+        $data['mcount'] = $this->_API->unSolved();
+        $this->load->view('pages/admin/comments', $data);
+    }
 
     function adactivate($id) {
         $this->adminAdActivate($id, 'normal_ad');
@@ -95,6 +104,19 @@ class Admin extends MY_Controller {
 
     function obdelete($id) {
         $this->adminObDelete($id, 'obituary');
+    }
+    
+    function approvec($id){
+        $data = array('approval'=>1);
+        $this->_API->setStatus('id', $id, 'obituary_comments', $data);
+        $this->session->set_flashdata('message_success', 'Comment Successfully Approved!');
+        redirect('admin/comments');
+    }
+    function rejectc($id){
+        $data = array('approval'=>2);
+        $this->_API->setStatus('id', $id, 'obituary_comments', $data);
+         $this->session->set_flashdata('message_reject', 'Comment Successfully Rejected!');
+         redirect('admin/comments');
     }
 
 }

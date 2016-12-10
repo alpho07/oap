@@ -72,7 +72,7 @@
                     </div>
 
                     <div class="col-lg-4 col-md-4 col-sm-4">
-                        <input required type="checkbox" name="negotaible" id="negotiable" value="yes" checked="<?php if($info[0]->nego==='yes'){echo 'checked';}else{echo 'false';} ;?>"> Negotiable
+                        <input  type="checkbox" name="negotaible" id="negotiable" value="yes" <?php if($info[0]->nego==='yes'){echo 'checked=checked';}else{echo '';} ?>> Negotiable
                     </div>	
 
                 </div>

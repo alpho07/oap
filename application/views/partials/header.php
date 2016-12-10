@@ -104,6 +104,10 @@
         });
         
       });
+      
+     
+    $('[data-toggle="popover"]').popover();
+
 
     });
     

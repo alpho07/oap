@@ -217,12 +217,16 @@ class Home extends MY_Controller {
         } else {
 
             $filedata = $this->upload->data();
-
+              $nego = $this->_POST('negotaible');
+        if(empty($nego)){
+            $nego ='no';
+        }
 
             $addata = array(
                 'title' => $this->_POST('addtitle'),
                 'category' => $this->_POST('category'),
                 'price' => $this->_POST('price'),
+                'nego'=>$nego,
                 'description' => $this->_POST('description'),
                 'image_path' => 'uploads/' . $filedata['orig_name'],
                 'region' => $this->_POST('region'),
@@ -474,14 +478,21 @@ class Home extends MY_Controller {
 
     public function adedit($id, $pe) {
 
+        $nego = $this->_POST('negotaible');
+        if(empty($nego)){
+            $nego ='no';
+        }
+        
         if ($_FILES['file']['tmp_name'] == '') {
             $addata = array(
                 'title' => $this->_POST('addtitle'),
                 'category' => $this->_POST('category'),
                 'price' => $this->_POST('price'),
+                'nego'=>$nego,
                 'description' => $this->_POST('description'),
                 'region' => $this->_POST('region'),
             );
+          
 
             $this->Update($id, 'normal_ad', $addata);
             redirect('home/edits/' . $id . '/' . $pe);
@@ -514,6 +525,7 @@ class Home extends MY_Controller {
                     'title' => $this->_POST('addtitle'),
                     'category' => $this->_POST('category'),
                     'price' => $this->_POST('price'),
+                    'nego'=>$nego,
                     'description' => $this->_POST('description'),
                     'region' => $this->_POST('region'),
                     'image_path' => 'uploads/' . $filedata['orig_name'],

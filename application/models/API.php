@@ -72,6 +72,10 @@ class API extends CI_Model {
               ORDER BY ad.id DESC
               ")->result();
     }
+    
+    function setStatus($criteria,$id, $table,$data){
+        $this->db->where($criteria,$id)->update($table,$data);
+    }
 
     function getReportedAds() {
         return $this->db->get('reports')->result();
@@ -109,8 +113,11 @@ class API extends CI_Model {
               WHERE user_id=$uid 
               AND c.id=ad.category  )res ORDER BY id DESC")->result();
     }
-
-    function getAllUserAds() {
+    
+    function loadComments(){
+        return $this->db->query("SELECT oc.*,ob.obtitle FROM obituary_comments oc INNER JOIN obituary ob ON oc.obid = ob.id AND oc.approval ='0' ORDER BY oc.id DESC ")->result();
+    }
+                function getAllUserAds() {
         $id = $this->session->userdata('user_id');
         return $this->db->query("
              SELECT * FROM( SELECT ad.id,ad.category,ad.title,ad.image_path,ad.date_posted,ad.user_status,ad.admin_status,c.name 
@@ -188,7 +195,7 @@ ORDER BY RAND() LIMIT 6;")->result();
     }
 
     function getObComments($id) {
-        return $this->db->where('obid', $id)->get('obituary_comments')->result();
+        return $this->db->where('obid', $id)->where('approval','1')->get('obituary_comments')->result();
     }
 
     function getSingleAd($id) {
