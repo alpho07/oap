@@ -74,7 +74,7 @@
                         <div class="col-lg-7 col-md-7 col-sm-7 ">
 
                             <div class="carousel-heading no-margin">
-                                <h4><?php echo $info[0]->title . ' &#187 KSH. ' . $info[0]->price; ?></h4>
+                                <h4><?php echo $info[0]->title ;?> <?php if((int)$info[0]->price  > 0){echo ' &#187 KSH. '. number_format($info[0]->price,2);}else{}; if($info[0]->nego==='yes'){echo ' &#187 **Negotiable**';}else{};?></h4>
                             </div>
 
                             <div class="page-content contact-info card">

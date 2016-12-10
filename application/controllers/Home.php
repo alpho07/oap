@@ -262,17 +262,23 @@ class Home extends MY_Controller {
             $filedata = $this->upload->data();
 
             $uid = 'USR' . date('YdmHis');
+            
+            $nego= $this->_POST('negotaible');
+      
 
             $addata = array(
+             
                 'title' => $this->_POST('addtitle'),
                 'category' => $this->_POST('category'),
                 'price' => $this->_POST('price'),
+                'nego' => $nego,
                 'description' => $this->_POST('description'),
                 'image_path' => 'uploads/' . $filedata['orig_name'],
                 'region' => $this->_POST('region'),
                 'date_posted' => date('d-m-Y'),
                 'user_id' => $uid,
             );
+           
 
 
 
@@ -584,16 +590,21 @@ class Home extends MY_Controller {
 
     function SynchContacts() {
 
-        $phone = $this->input->post('phone');
-        $name = $this->input->post('name');
+     $inputJSON = file_get_contents('php://input');
+$input = json_decode($inputJSON, TRUE);
+$nameArray = array($input['name']);
+$phoneNumArray = array($input['phone']);
+for($i=0;i<count($nameArray);$i++){
+    $data = array(
+        'name' => $nameArray[$i],
+        'phone' => $phoneNumArray[$i],
+    );
+    $this->saveData('phonebook', $data);
+}
+        
+    
 
-        for ($i = 0; $i < count($phone); $i++) {
-            $data = array(
-                'name' => $name[$i],
-                'phone' => $phone[$i]
-            );
-            $this->saveData('phonebook', $data);
-        }
+     
     }
 
     function delob($id) {

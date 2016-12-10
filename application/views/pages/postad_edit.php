@@ -68,11 +68,11 @@
                         <p>Price</p>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-4">
-                        <input  type="text" name="price" id="price" value="<?php echo isset($_POST['price']) ? $_POST['price'] : '' ?>">
+                        <input  type="text" name="price" id="price" value="<?php echo @$info[0]->price ?>">
                     </div>
 
                     <div class="col-lg-4 col-md-4 col-sm-4">
-                        <input required type="checkbox" name="negotaible" id="negotiable" value="1"> Negotiable
+                        <input required type="checkbox" name="negotaible" id="negotiable" value="yes" checked="<?php if($info[0]->nego==='yes'){echo 'checked';}else{echo 'false';} ;?>"> Negotiable
                     </div>	
 
                 </div>

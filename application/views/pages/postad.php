@@ -72,7 +72,7 @@
                     </div>
                           
                     <div class="col-lg-4 col-md-4 col-sm-4">
-                        <input required type="checkbox" name="negotaible" id="negotiable" value="1"> Negotiable
+                        <input  type="checkbox" name="negotaible" id="negotiable" value="yes" > Negotiable
                     </div>	
 
                 </div>
@@ -254,10 +254,7 @@
                 description: {
                     required: true
                 },
-                price: {
-                    required: true,
-                    number:true
-                },
+              
                 email: {
                     required: true,
                     email: true
