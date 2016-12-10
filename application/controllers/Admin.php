@@ -118,5 +118,12 @@ class Admin extends MY_Controller {
          $this->session->set_flashdata('message_reject', 'Comment Successfully Rejected!');
          redirect('admin/comments');
     }
+    
+    function solved($id){
+        $data = array('solved'=>1);
+        $this->_API->setStatus('id', $id, 'reports', $data);
+        $this->session->set_flashdata('message_success', 'Report reviewed and removed from this list!');
+        redirect('admin/reports');
+    }
 
 }

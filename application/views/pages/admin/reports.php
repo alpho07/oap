@@ -116,6 +116,11 @@
                                     <div class="tab-pane active" id="1a">
                                         <table id="example myTable" class="display1234" cellspacing="0" width="100%">
                                             <thead>
+                                                                      <tr><td colspan="9">
+                                                <?php if (($this->session->flashdata('message_success')) == TRUE) { ?>
+                                                            <div class="alert alert-success" ><i class="fa fa-check"></i> <?php echo $this->session->flashdata('message_success'); ?></div>
+
+                                                        <?php } ?></td></tr>
                                                 <tr>
                                                     <th>No.</th>
                                                     <th style="width:10px !important;"><input type="checkbox" value="" style="display:inline-block"/></th>
@@ -139,7 +144,7 @@
                                                         <td><input style="display: inline-table !important" type="checkbox" value=""/></td>
                                                         <td><b><?php echo $ad->subject; ?></b></td>
                                                         <td><?php echo $ad->message; ?></td>
-                                                        <td><?php echo $ad->ad_id; ?></td>
+                                                        <td><a target="_blank" class="btn btn-primary" title="Edit and Correct Ad Complaint" href="<?php echo base_url().'home/edits/'.$ad->ad_id.'/'.  str_replace(" ", "-",$ad->subject);?>"><i class="fa fa-edit"> <?php echo $ad->ad_id; ?></i></a></td>
                                                         <td><?php echo $ad->name; ?></td>
                                                         <td><?php echo $ad->phone; ?></td>
                                                         <td><?php echo $ad->email; ?></td>

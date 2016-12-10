@@ -113,9 +113,8 @@
                     </div>
 
                 </li>
-                <!-- /Item -->
-
-                <!-- Item -->
+                                 
+                                        
                 <li>
                     <div class="accordion-header">
                         <h4>Condolence Book</h4>
@@ -124,8 +123,14 @@
                         </span>
                     </div>
                     <div class="accordion-content page-content">
+                               
                         <form method="POST" action="<?php echo base_url() . 'home/addcomment/' . $blogid . '/' . $pe; ?>">
                             <div class="row">
+                                
+                                 <?php if (($this->session->flashdata('message_success')) == TRUE) { ?>
+                                <div style="background: green; color:white; border: 1px solid green; border-radius: 3px; padding: 5px;" ><i class="fa fa-check"></i> <?php echo $this->session->flashdata('message_success'); ?></div>
+
+                                 <?php } ?>
 
                                 <div class="col-lg-12 col-md-12 col-sm-12">
                                     <h4>CONDOLENCE MESSAGES . <?php echo count($comments); ?></h4>

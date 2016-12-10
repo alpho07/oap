@@ -108,7 +108,6 @@
 
                 </div>
 
-                <hr>
                 <div class="row">
 
                     <div class="col-lg-4 col-md-4 col-sm-4">
@@ -124,24 +123,34 @@
                 </div>
             </div>
             
+                <div class="row">
+
+                    <div class="col-lg-4 col-md-4 col-sm-4">
+                        <p>**NOTE**</p>
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-sm-8">
+                        <p><span style="color:blue;">We need at least two mandatory contact persons to verify the authenticity of this obituary</span></p>
+                    </div>	
+                  	
+                     
+                </div>
             
-              <div class="row">
+            
+            
+        <div class="row">
 
                     <div class="col-lg-4 col-md-4 col-sm-4">
                         <p>Contact Persons</p>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-4">
-                        <input type="text" name="con1" id="con1" placeholder="Phone or email of contact person 1" required value="<?php echo isset($_POST['con1']) ? $_POST['con1'] : '' ?>"/> 
-
+                        <input type="text" name="con1" id="con1" required placeholder="Phone / email" value="<?php echo isset($_POST['con1']) ? $_POST['con1'] : '' ?>">
                     </div>	
                     <div class="col-lg-4 col-md-4 col-sm-4">
-                        <input type="text" name="con2" id="con2" placeholder="Phone or email of contact person 2" required value="<?php echo isset($_POST['con2']) ? $_POST['con2'] : '' ?>"/>
-
-                    </div>
-                  <p style="margin-left:  10px; color: blue; padding: 2px; "><small>We need contact persons for verification of authenticity of this obituary</small></p>
-
+                        <input type="text" name="con2" id="con2" placeholder="Phone/Email" required value="<?php echo isset($_POST['con2']) ? $_POST['con2'] : '' ?>">
+                    </div>	
+                     
                 </div>
-            
+    
    	
 
                 <div class="row">
@@ -222,7 +231,7 @@
             </div>
         </div>
 
-</div>
+
 </form>
 </div>
 
@@ -234,6 +243,7 @@
             changeMonth:true,
             yearRange: "-100:+0",
             showButtonPanel: true,
+            maxDate:new Date()
         });
         $('#dod').datepicker({
             dateFormat:"dd-mm-yy",
@@ -316,6 +326,12 @@
                     required: true
                 },
                 dod: {
+                    required: true
+                },
+                con1: {
+                    required: true
+                },
+                con2: {
                     required: true
                 },
                 email: {

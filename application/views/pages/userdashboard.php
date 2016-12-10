@@ -118,7 +118,7 @@
                                     <li class="active">
                                         <a  href="#1a" data-toggle="tab">Ads / Obituaries</a>
                                     </li>
-                                    <li><a href="#2a" data-toggle="tab">inbox <?php if ($mcount > 0) { ?><span style="background: red" class="badge"><?php echo $mcount; ?></span> <?php
+                                    <li><a href="#2a" data-toggle="tab">Inbox <?php if ($mcount > 0) { ?><span style="background: red" class="badge"><?php echo $mcount; ?></span> <?php
                                             } else {
                                                 echo '';
                                             };
@@ -198,9 +198,9 @@
 
                                                 <td>
                                                     <?php if ($ad->category == '1') { ?>
-                                                        <a class="btn btn-default" href="<?php echo base_url() . 'home/loadprofile/' . $ad->id . '/' . str_replace(" ", "-", $ad->title); ?>"><i class="fa fa-binoculars"></i> Preview</a>
+                                                    <a class="btn btn-default" target="_blank" href="<?php echo base_url() . 'home/loadprofile/' . $ad->id . '/' . str_replace(" ", "-", $ad->title); ?>"><i class="fa fa-binoculars"></i> Preview</a>
                                                     <?php } else { ?>
-                                                        <a class="btn btn-default" href="<?php echo base_url() . 'home/loadsingle/' . $ad->id . '/' . str_replace(" ", "-", $ad->title); ?>"><i class="fa fa-binoculars"></i> Preview</a>
+                                                        <a class="btn btn-default" target="_blank" href="<?php echo base_url() . 'home/loadsingle/' . $ad->id . '/' . str_replace(" ", "-", $ad->title); ?>"><i class="fa fa-binoculars"></i> Preview</a>
 
                                                     <?php } ?> </td>
 

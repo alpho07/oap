@@ -123,8 +123,8 @@
                                                     <th>Screenshot</th>
                                                        <th>OB ID</th>
                                                     <th>Title</th>
-                                                    <th>Category</th>
-                                                    <th>User</th>
+                                                    <th>Contact Persons</th>
+                                                    <th>Author</th>
                                                     <th>Date</th>
                                                     <th></th>
                                                     <th></th>
@@ -145,7 +145,7 @@
                                                         
                                                         <td><?php echo $ad->id; ?></td>
                                                         <td><?php echo $ad->title; ?></td>
-                                                        <td><?php echo $ad->name; ?></td>
+                                                        <td><a href='#contact-persons' data-content='<?php echo $ad->contact_persons; ?>' title='Contact Persons'  data-toggle="popover">Show </a></td>
                                                         <td><?php echo $ad->user; ?></td>
                                                         <td><?php echo $ad->date_posted; ?></td>
                                                         <td> <?php if ($ad->category == '1') { ?>
@@ -186,9 +186,9 @@
 
                                                 <td>
                                                     <?php if ($ad->category == '1') { ?>
-                                                        <a class="btn btn-default" href="<?php echo base_url() . 'home/loadprofile/' . $ad->id . '/' . str_replace(" ", "-", $ad->title); ?>"><i class="fa fa-binoculars"></i> Preview</a>
+                                                    <a class="btn btn-default" href="<?php echo base_url() . 'home/loadprofile/' . $ad->id . '/' . str_replace(" ", "-", $ad->title); ?>" target="_blank"><i class="fa fa-binoculars"></i> Preview</a>
                                                     <?php } else { ?>
-                                                        <a class="btn btn-default" href="<?php echo base_url() . 'home/loadsingle/' . $ad->id . '/' . str_replace(" ", "-", $ad->title); ?>"><i class="fa fa-binoculars"></i> Preview</a>
+                                                        <a class="btn btn-default" href="<?php echo base_url() . 'home/loadsingle/' . $ad->id . '/' . str_replace(" ", "-", $ad->title); ?>" target="_blank"><i class="fa fa-binoculars"></i> Preview</a>
 
                                                     <?php } ?> </td>
 

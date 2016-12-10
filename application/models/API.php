@@ -78,7 +78,7 @@ class API extends CI_Model {
     }
 
     function getReportedAds() {
-        return $this->db->get('reports')->result();
+        return $this->db->where('solved','0')->get('reports')->result();
     }
 
     function getPayments() {
@@ -128,6 +128,11 @@ class API extends CI_Model {
               FROM obituary ad, categories c 
               WHERE  c.id=ad.category
               AND user_id ='$id' )res ORDER BY id DESC ")->result();
+    }
+    
+    
+    function loadUnread($id){
+        return $this->db->where('id',$id)->get('inbox')->result();
     }
 
     function getNormalAdsFeatured() {

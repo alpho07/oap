@@ -377,6 +377,7 @@ class Home extends MY_Controller {
                 'more_info' => $this->_POST('more_info'),
                 'dob' => $this->_POST('dob'),
                 'dod' => $this->_POST('dod'),
+                'contact_persons'=>$this->_POST('con1').','.$this->_POST('con2'),
                 'description' => $this->_POST('description'),
                 'image_path' => 'uploads/' . $filedata['orig_name'],
                 'date_posted' => date('d-m-Y'),
@@ -415,6 +416,7 @@ class Home extends MY_Controller {
                 'more_info' => $this->_POST('more_info'),
                 'dob' => $this->_POST('dob'),
                 'dod' => $this->_POST('dod'),
+                'contact_persons'=>$this->_POST('con1').','.$this->_POST('con2'),
                 'description' => $this->_POST('description'),
                 'region' => $this->_POST('region'),
             );
@@ -451,6 +453,7 @@ class Home extends MY_Controller {
                     'category' => $this->_POST('category'),
                     'dob' => $this->_POST('dob'),
                     'dod' => $this->_POST('dod'),
+                    'contact_persons'=>$this->_POST('con1').','.$this->_POST('con2'),
                     'more_info' => $this->_POST('more_info'),
                     'description' => $this->_POST('description'),
                     'image_path' => 'uploads/' . $filedata['orig_name'],
@@ -568,6 +571,7 @@ class Home extends MY_Controller {
                 'category' => $this->_POST('category'),
                 'dob' => $this->_POST('dob'),
                 'dod' => $this->_POST('dod'),
+                'contact_persons'=>$this->_POST('con1').','.$this->_POST('con2'),
                 'description' => $this->_POST('description'),
                 'image_path' => 'uploads/' . $filedata['orig_name'],
                 'date_posted' => date('d-m-Y'),
@@ -597,6 +601,7 @@ class Home extends MY_Controller {
             'date' => date('d-m-Y H:i:s')
         );
         $this->saveData('obituary_comments', $data);
+         $this->session->set_flashdata('message_success', 'Your Condolence message has been received and is currently under review and will appear below shortly after the review');
         redirect('home/loadProfile/' . $id . '/' . $pe);
     }
 
