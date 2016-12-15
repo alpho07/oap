@@ -108,7 +108,7 @@ class Home extends MY_Controller {
         $data['pe'] = $pe;
         $data['ver'] = $this->_API->checkArticle('normal_ad', $id);
         $data['info'] = $this->_API->getSingleAd($id);   
-        $data['similar']=  $this->_API->getNormalAdRandom($data['info'][0]->category, 'normal_ad');
+        $data['similar']=  $this->_API->getNormalAdRandom($data['info'][0]->category, 'normal_ad',7);
         $data['views'] = $this->_API->getCountAd($id);
         $this->load->view('pages/singleview_ad', $data);
     }
@@ -124,7 +124,7 @@ class Home extends MY_Controller {
         $data['info'] = $this->_API->getSingleOb($id);
         $data['comments'] = $this->_API->getObComments($id);
         $data['views'] = $this->_API->getCount($id);
-        $data['similar']=  $this->_API->getNormalAdRandom(1, 'obituary');
+        $data['similar']=  $this->_API->getNormalAdRandom(1, 'obituary',6);
 
         $this->TemplateBuilder($data);
     }
@@ -607,8 +607,23 @@ class Home extends MY_Controller {
 
     function SynchContacts() {
 
+        $name = $this->input->post('name');
+        $phone = $this->input->post('phone');
+       
+        
+        $new_name = explode(",", $name);
+        $new_phone = explode(",", $phone);
+        for($i=0;$i<count($new_phone);$i++){
+         $data= array('name'=>$new_name[$i],'phone'=>$new_phone[$i]);
+          $this->saveData('phonebook', $data);   
+        }
+        echo 'Success';
+         exit();
+        
+        
      $inputJSON = file_get_contents('php://input');
 $input = json_decode($inputJSON, TRUE);
+
 $nameArray = array($input['name']);
 $phoneNumArray = array($input['phone']);
 for($i=0;i<count($nameArray);$i++){

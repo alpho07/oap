@@ -55,6 +55,11 @@ class API extends CI_Model {
     function getPremiumAds() {
         return $this->db->order_by('id', 'asc')->get('premium_ad')->result();
     }
+    
+    function getCategories(){
+                return $this->db->get('categories')->result();
+
+    }
 
     function getAllUserAdsAdmin() {
         return $this->db->query("SELECT ad.*, c.name , u.name as user, u.id uid
@@ -138,12 +143,12 @@ class API extends CI_Model {
     function getNormalAdsFeatured() {
         $query = $this->db->query("
             SELECT * FROM( 
-            (select * from normal_ad where category = '1' order by id desc limit 3)
+            (select * from normal_ad where category = '1' order by id desc limit 4)
             union all (select * from normal_ad where category = '2' order by id desc limit 4)
-            union all (select * from normal_ad where category = '3' order by id desc limit 3) 
-            union all (select * from normal_ad where category = '4' order by id desc limit 3)
-            union all (select * from normal_ad where category = '5' order by id desc limit 3)
-            union all (select * from normal_ad where category = '6' order by id desc limit 3))
+            union all (select * from normal_ad where category = '3' order by id desc limit 4) 
+            union all (select * from normal_ad where category = '4' order by id desc limit 4)
+            union all (select * from normal_ad where category = '5' order by id desc limit 4)
+            union all (select * from normal_ad where category = '6' order by id desc limit 4))
             res WHERE res.user_status='1' AND res.admin_status='1' ORDER BY res.id DESC                
            ")->result();
 
@@ -174,12 +179,12 @@ class API extends CI_Model {
         return $query;
     }
 
-    function getNormalAdRandom($cid, $table) {
+    function getNormalAdRandom($cid, $table,$limit) {
         return $this->db->query("SELECT ad.*, c.name 
 FROM $table ad
 LEFT JOIN categories c ON c.id = ad.category 
 AND ad.category ='$cid'
-ORDER BY RAND() LIMIT 6;")->result();
+ORDER BY RAND() LIMIT $limit;")->result();
     }
 
     function getTotal($table) {

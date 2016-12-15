@@ -20,7 +20,7 @@
     <body>
 
         <!-- Container -->
-        <div class="container">
+        <div class="container " style="width:100% !important;">
 
             <!-- Header -->
             <?php $this->load->view('partials/top-header'); ?>
@@ -37,7 +37,7 @@
                 </div>
 
                 <!-- Main Content -->
-                <section class="main-content col-lg-9 col-md-9 col-sm-9 col-lg-push-3 col-md-push-3 col-sm-push-3">
+                <section class="main-content col-lg-8 col-md-8 col-sm-8 col-lg-push-2 col-md-push-2 col-sm-push-2">
 
 
                     <?php $this->load->view($content); ?>
@@ -45,17 +45,17 @@
 
                 </section>
                 <!-- /Main Content -->
-
+                 
 
 
 
                 <!-- Sidebar -->
                 <?php $this->load->view('partials/categories'); ?>
                 <!-- /Sidebar -->
-
+             
             </div>
             <!-- /Content -->
-
+              
 
 
             <!-- Banner -->

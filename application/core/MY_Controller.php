@@ -46,6 +46,9 @@ class MY_Controller extends CI_Controller {
             redirect('/');
         }
     }
+    function sanitizeData($subject){
+        return str_replace(" ", "-", $subject);
+    }
 
     function sendUMAIL($email, $name, $package) {
         $message = "Hello $name,<br> Your SMARTSchema Account upgrade to  <strong>" . $package . "</strong> has successfully completed.";
@@ -235,6 +238,46 @@ class MY_Controller extends CI_Controller {
     function _SESSION() {
         return $this->session->userdata('user_id');
     }
+    
+     function menuBuilder() {
+        $tree = $this->_API->getData('categories');
+       
+        $node_id = '';
+       
+        echo '<ul>';
+        foreach ($tree as $node):
+            if ($node->parent == 0):
+                
+    echo '<li><a href="'.  base_url().'home/category/'.$node->id .'/' .$node->name.'">'.$this->sanitizeData($node->name) .'<i class="icons icon-right-dir"></i></a> ';
+                $node_id = $node->id;
+               
+                echo '<ul class="sidebar-dropdown"><li><ul>';
+                $this->subMenuBuilder($tree, $node_id);
+                echo '</ul><li></ul></li>';
+            endif;
+          
+        endforeach;
+        echo '</ul>';
+    }
+
+    function subMenuBuilder($tree, $node_id) {
+        
+        foreach ($tree as $branch):
+            
+            if ($branch->parent == $node_id):
+                
+             echo '<li><a href="'.  base_url().'home/category/'.$branch->id.'/'.$this->sanitizeData($branch->name).'">';
+            echo $branch->name;
+             $this->subMenuBuilder($tree, $branch->id);
+             echo '</a></li>';
+            
+            endif;
+            
+        endforeach;
+     
+    }
+    
+    
 
     function TemplateBuilder($data) {
         $data['categories']=  $this->_API->getData('categories');

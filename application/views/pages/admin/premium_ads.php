@@ -24,7 +24,7 @@
     <body>
 
         <!-- Container -->
-        <div class="container">
+        <div class="container" style="width:100% !important;">
 
             <!-- Header -->
             <header class="row">

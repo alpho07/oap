@@ -1,4 +1,4 @@
-<aside class="sidebar col-lg-3 col-md-3 col-sm-3  col-lg-pull-9 col-md-pull-9 col-sm-pull-9">
+<aside class="sidebar col-lg-2 col-md-2 col-sm-2  col-lg-pull-8 col-md-pull-8 col-sm-pull-8">
 
     <!-- Categories -->
     <div class="row sidebar-box purple">
@@ -11,35 +11,9 @@
             </div>
 
             <div class="sidebar-box-content">
-                <ul>
-                    <li><a href="#">Obituaries<i class="icons icon-right-dir"></i></a></li>
-                    <li><a href="#">Caskets <i class="icons icon-right-dir"></i></a></li>
-                    <li><a href="#">Pathologists <i class="icons icon-right-dir"></i></a>
-                        <ul class="sidebar-dropdown">
-                            <li>
-                                <ul>
-                                    <li><a href="#">Pathologist 1</a></li>
-                                    <li><a href="#">Pathologist 2</a></li>
-                                    <li><a href="#">Pathologist 3</a></li>
-                                    <li><a href="#">Pathologist 4</a></li>
-                                    <li><a href="#">Pathologist 5</a></li>
-                                </ul>
-                            </li>
-                            <li>
-                                <ul>
-                                    <li><a href="#">Pathologist 6</a></li>
-                                    <li><a href="#">Pathologist 7</a></li>
-                                    <li><a href="#">Pathologist 8</a></li>
-                                    <li><a href="#">Pathologist 9</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <li><a href="#">Hospitals<i class="icons icon-right-dir"></i></a></li>
-                    <li><a href="#">Flowers <i class="icons icon-right-dir"></i></a></li>
-                    <li><a href="#">Hearse<i class="icons icon-right-dir"></i></a></li>                  
-                    <li><a class="purple" href="#">All Categories</a></li>
-                </ul>
+               <?php $menu = & get_instance();
+                       $menu->menuBuilder();
+                       ;?>
             </div>
 
         </div>
@@ -48,6 +22,36 @@
     <!-- /Categories -->
 
 
-    <?php $this->load->view('partials/ads');?>
+    <?php $this->load->view('partials/ads_left'); ?>
 
 </aside>
+
+<!-- Sidebar -->
+<aside class="sidebar right-sidebar col-lg-2 col-md-2 col-sm-2">
+<?php $this->load->view('partials/ads_right'); ?>
+
+</aside>
+<!-- /Sidebar -->
+
+<script>
+$(function() {
+
+    var $sidebar   = $(".sidebar-box-content1"), 
+        $window    = $(window),
+        offset     = $sidebar.offset(),
+        topPadding = 25;
+
+    $window.scroll(function() {
+        if ($window.scrollTop() > offset.top) {
+            $sidebar.stop().animate({
+                marginTop: $window.scrollTop() - offset.top + topPadding
+            });
+        } else {
+            $sidebar.stop().animate({
+                marginTop: 0
+            });
+        }
+    });
+    
+});
+</script>

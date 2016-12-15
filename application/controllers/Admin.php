@@ -36,6 +36,14 @@ class Admin extends MY_Controller {
         $data['mcount'] = $this->_API->unSolved();
         $this->load->view('pages/admin/reports', $data);
     }
+    public function settings() {
+        $data['ptitle'] = "Admin -> Dashboard -> Category Settings";
+        $data['title'] = "Admin Dashboard - Settings";
+        $data['ads'] = $this->_API->getCategories();
+        $data['messages'] = $this->_API->loadMessages();
+        $data['mcount'] = $this->_API->unSolved();
+        $this->load->view('pages/admin/cat_settings', $data);
+    }
 
     public function ads() {
         $data['ptitle'] = "Admin -> Dashboard ->Normal Ads";
@@ -81,8 +89,18 @@ class Admin extends MY_Controller {
         $data['mcount'] = $this->_API->unSolved();
         $this->load->view('pages/admin/comments', $data);
     }
-
-    function adactivate($id) {
+    
+    function savecategory(){
+        $data = array('name'=> $this->_POST('category'));
+        $this->saveData('categories', $data);
+    }
+    function saveCategoryAssignment(){
+        $parent =$this->_POST('category');
+        $child =$this->_POST('sub');
+        $data = array('parent'=> $parent);
+        $this->_API->setStatus('id', $child, 'categories', $data);
+    }
+                function adactivate($id) {
         $this->adminAdActivate($id, 'normal_ad');
     }
 

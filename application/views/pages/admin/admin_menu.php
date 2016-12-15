@@ -53,4 +53,11 @@
             } ?>">
         <a href="<?php echo base_url(); ?>admin/payments" >Payments</a>
     </li>
+    <li class="<?php if ($this->uri->segment(2) == 'settings') {
+                echo 'active';
+            } else {
+                
+            } ?>">
+        <a href="<?php echo base_url(); ?>admin/settings" >Category settings</a>
+    </li>
 </ul>

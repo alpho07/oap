@@ -204,10 +204,10 @@
 <?php foreach ($similar as $ob): ?>
 
                 <!-- Subcategory -->
-                <div class="col-lg-fifth col-md-fifth col-sm-fifth subcategory" style="width:140px;" >
+                <div class="col-lg-fifth col-md-fifth col-sm-fifth subcategory" style="width:143px;" >
 
                     <a class="product-image" href="<?php echo base_url() . 'home/loadProfile/' . $ob->id . '/' . str_replace(" ", "-", $ob->obtitle); ?>">
-                        <img src="<?php echo base_url() . $ob->image_path; ?>" alt="<?php echo $ob->obtitle; ?>"  style="height:180px !important;"  /></a>
+                        <img src="<?php echo base_url() . $ob->image_path; ?>" alt="<?php echo $ob->obtitle; ?>"  style="height:150px !important;"  /></a>
                     <div class="product-info card">
                         <h5><a href="<?php echo base_url() . 'home/loadProfile/' . $ob->id . '/' . str_replace(" ", "-", $ob->title); ?>"><?php echo mb_strimwidth($ob->obtitle, 0, 10, "..."); ?></a></h5>
                     </div>
