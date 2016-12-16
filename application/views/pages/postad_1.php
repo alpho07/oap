@@ -52,11 +52,9 @@
                     <div class="col-lg-8 col-md-8 col-sm-8">
                         <select required class="chosen-select-search" name="category" id="category" >
                             <option value="">-Select Category-</option>
-                            <option value="2">Caskets</option>
-                            <option value="3">Pathologists</option>
-                            <option value="4">Hospitals</option>
-                            <option value="5">Flowers</option>
-                            <option value="6">Hearse</option>
+                              <?php foreach ($categories as $c):?>
+                            <option value="<?php echo $c->id;?>"><?php echo $c->name;?></option>
+                          <?php endforeach ;?>
                         </select>
                     </div>	
 

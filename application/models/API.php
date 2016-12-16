@@ -55,10 +55,13 @@ class API extends CI_Model {
     function getPremiumAds() {
         return $this->db->order_by('id', 'asc')->get('premium_ad')->result();
     }
-    
-    function getCategories(){
-                return $this->db->get('categories')->result();
 
+    function getCategories() {
+        return $this->db->get('categories')->result();
+    }
+
+    function getCategoriesSelection() {
+        return $this->db->query("SELECT * FROM categories LIMIT 1,100")->result();
     }
 
     function getAllUserAdsAdmin() {
@@ -77,13 +80,13 @@ class API extends CI_Model {
               ORDER BY ad.id DESC
               ")->result();
     }
-    
-    function setStatus($criteria,$id, $table,$data){
-        $this->db->where($criteria,$id)->update($table,$data);
+
+    function setStatus($criteria, $id, $table, $data) {
+        $this->db->where($criteria, $id)->update($table, $data);
     }
 
     function getReportedAds() {
-        return $this->db->where('solved','0')->get('reports')->result();
+        return $this->db->where('solved', '0')->get('reports')->result();
     }
 
     function getPayments() {
@@ -118,11 +121,12 @@ class API extends CI_Model {
               WHERE user_id=$uid 
               AND c.id=ad.category  )res ORDER BY id DESC")->result();
     }
-    
-    function loadComments(){
+
+    function loadComments() {
         return $this->db->query("SELECT oc.*,ob.obtitle FROM obituary_comments oc INNER JOIN obituary ob ON oc.obid = ob.id AND oc.approval ='0' ORDER BY oc.id DESC ")->result();
     }
-                function getAllUserAds() {
+
+    function getAllUserAds() {
         $id = $this->session->userdata('user_id');
         return $this->db->query("
              SELECT * FROM( SELECT ad.id,ad.category,ad.title,ad.image_path,ad.date_posted,ad.user_status,ad.admin_status,c.name 
@@ -134,37 +138,41 @@ class API extends CI_Model {
               WHERE  c.id=ad.category
               AND user_id ='$id' )res ORDER BY id DESC ")->result();
     }
-    
-    
-    function loadUnread($id){
-        return $this->db->where('id',$id)->get('inbox')->result();
+
+    function loadUnread($id) {
+        return $this->db->where('id', $id)->get('inbox')->result();
     }
 
     function getNormalAdsFeatured() {
-        $query = $this->db->query("
-            SELECT * FROM( 
-            (select * from normal_ad where category = '1' order by id desc limit 4)
-            union all (select * from normal_ad where category = '2' order by id desc limit 4)
-            union all (select * from normal_ad where category = '3' order by id desc limit 4) 
-            union all (select * from normal_ad where category = '4' order by id desc limit 4)
-            union all (select * from normal_ad where category = '5' order by id desc limit 4)
-            union all (select * from normal_ad where category = '6' order by id desc limit 4))
-            res WHERE res.user_status='1' AND res.admin_status='1' ORDER BY res.id DESC                
-           ")->result();
+        $categories = $this->getCategoriesSelection();
+        $query = " SELECT * FROM( ";
+        $query .= "    (select * from normal_ad where category = '1'  order by id desc ) ";
+        foreach ($categories as $id):
+            $query.=" union all (select * from normal_ad where category = '$id->id' order by id desc limit 4) ";
+        endforeach;
+        $query.=" ) res WHERE res.user_status='1' AND res.admin_status='1' ORDER BY res.id DESC";
 
-        return $query;
+
+        return $this->db->query($query)->result();
     }
 
     function getNormalAdsList($limit, $offset) {
+
+        $categories = $this->getCategoriesSelection();
+        $query = " SELECT * FROM( ";
+        $query .= "    (select * from normal_ad where category = '1'  order by id desc ) ";
+        foreach ($categories as $id):
+            $query.=" union all (select * from normal_ad where category = '$id->id') ";
+        endforeach;
+        $query.=" ) res WHERE res.user_status='1' AND res.admin_status='1' ORDER BY res.id DESC LIMIT $limit OFFSET $offset ";
+
+
+        return $this->db->query($query)->result();
+    }
+
+    function getNormalAdsListByCategory($limit, $offset, $category) {
         $query = $this->db->query("
-            SELECT * FROM( 
-            (select * from normal_ad where category = '1'  order by id desc )
-            union all (select * from normal_ad where category = '2' order by id desc )
-            union all (select * from normal_ad where category = '3' order by id desc ) 
-            union all (select * from normal_ad where category = '4' order by id desc)
-            union all (select * from normal_ad where category = '5' order by id desc)
-            union all (select * from normal_ad where category = '6' order by id desc))
-            res WHERE res.user_status='1' AND res.admin_status='1' ORDER BY res.id DESC LIMIT $limit OFFSET $offset               
+            SELECT * FROM normal_ad res WHERE res.user_status='1' AND res.admin_status='1' AND res.category='$category' ORDER BY res.id DESC LIMIT $limit OFFSET $offset               
            ")->result();
 
         return $query;
@@ -179,7 +187,7 @@ class API extends CI_Model {
         return $query;
     }
 
-    function getNormalAdRandom($cid, $table,$limit) {
+    function getNormalAdRandom($cid, $table, $limit) {
         return $this->db->query("SELECT ad.*, c.name 
 FROM $table ad
 LEFT JOIN categories c ON c.id = ad.category 
@@ -189,6 +197,10 @@ ORDER BY RAND() LIMIT $limit;")->result();
 
     function getTotal($table) {
         return $this->db->where('user_status', '1')->where('admin_status', '1')->get($table)->num_rows();
+    }
+
+    function getTotalByCategory($table, $category) {
+        return $this->db->where('user_status', '1')->where('admin_status', '1')->where('category', $category)->get($table)->num_rows();
     }
 
     function getAllObs() {
@@ -205,7 +217,7 @@ ORDER BY RAND() LIMIT $limit;")->result();
     }
 
     function getObComments($id) {
-        return $this->db->where('obid', $id)->where('approval','1')->get('obituary_comments')->result();
+        return $this->db->where('obid', $id)->where('approval', '1')->get('obituary_comments')->result();
     }
 
     function getSingleAd($id) {

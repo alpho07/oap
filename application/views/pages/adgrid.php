@@ -29,11 +29,11 @@
             <span>LATEST ADS</span>
              <div class="category-buttons">
                 <?php  if ($this->input->get('page')=='grid') {?>
-         <a href="<?php echo base_url().'home/'.$gridview; ?>"><i class="icons icon-th-3 active-button"></i></a>
-                <a href="<?php echo base_url().'home/'.$listview; ?>"><i class="icons icon-th-list-4 "></i></a>
+         <a href="<?php echo base_url().$gridview; ?>"><i class="icons icon-th-3 active-button"></i></a>
+                <a href="<?php echo base_url().$listview; ?>"><i class="icons icon-th-list-4 "></i></a>
         <?php } else {?>
-                <a href="<?php echo base_url().'home/'.$gridview; ?>"><i class="icons icon-th-3 active-button"></i></a>
-                <a href="<?php echo base_url().'home/'.$listview; ?>"><i class="icons icon-th-list-4 "></i></a>   
+                <a href="<?php echo base_url().$gridview; ?>"><i class="icons icon-th-3 active-button"></i></a>
+                <a href="<?php echo base_url().$listview; ?>"><i class="icons icon-th-list-4 "></i></a>   
                 <?php }?>
         </div>
     </div>

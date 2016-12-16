@@ -12,9 +12,13 @@ class Home extends MY_Controller {
         $this->_Auth = new User_authentication;
         $this->_API = new API;
     }
+    
+    function t(){
+        $this->_API->getNormalAdsFeatured();
+    }
 
     public function index() {
-      
+
         $data['content'] = 'pages/featured';
         $data['ptitle'] = "Latest Adds -> Grid View";
         $data['title'] = "OOP The best obituary classifieds";
@@ -34,16 +38,16 @@ class Home extends MY_Controller {
             $data['content'] = 'pages/list';
             $data['ptitle'] = "Ads -> List View";
             $data['title'] = "OOP The best obituary classifieds";
-            $data['listview'] = 'all/?view=list&page=' . $this->input->get('page');
-            $data['gridview'] = 'all/?view=grid&page=' . $this->input->get('page');
+            $data['listview'] = 'home/all/?view=list&page=' . $this->input->get('page');
+            $data['gridview'] = 'home/all/?view=grid&page=' . $this->input->get('page');
             $data['flist'] = $this->_API->getNormalAdsList(20, $page);
             $data['pages'] = $this->pagination('Home', 'all', $view, $page, 20, 'normal_ad');
         } else {
             $data['content'] = 'pages/adgrid';
             $data['ptitle'] = "Ads -> Grid View";
             $data['title'] = "OOP The best obituary classifieds";
-            $data['listview'] = 'all/?view=list&page=' . $this->input->get('page');
-            $data['gridview'] = 'all/?view=grid&page=' . $this->input->get('page');
+            $data['listview'] = 'home/all/?view=list&page=' . $this->input->get('page');
+            $data['gridview'] = 'home/all/?view=grid&page=' . $this->input->get('page');
             $data['flist'] = $this->_API->getNormalAdsList(20, $page);
             $data['pages'] = $this->pagination('Home', 'all', $view, $page, 20, 'normal_ad');
         }
@@ -61,16 +65,16 @@ class Home extends MY_Controller {
             $data['content'] = 'pages/obituarylist';
             $data['ptitle'] = "Obituary -> List View";
             $data['title'] = "OOP The best obituary classifieds";
-            $data['listview'] = 'allobs/?view=list&page=' . $this->input->get('page');
-            $data['gridview'] = 'allobs/?view=grid&page=' . $this->input->get('page');
+            $data['listview'] = 'home/allobs/?view=list&page=' . $this->input->get('page');
+            $data['gridview'] = 'home/allobs/?view=grid&page=' . $this->input->get('page');
             $data['flist'] = $this->_API->getObituary(18, $page);
             $data['pages'] = $this->pagination('Home', 'allobs', $view, $page, 18, 'obituary');
         } else {
             $data['content'] = 'pages/obgrid';
             $data['ptitle'] = "Obituary -> Grid View";
             $data['title'] = "OOP The best obituary classifieds";
-            $data['listview'] = 'allobs/?view=list&page=' . $this->input->get('page');
-            $data['gridview'] = 'allobs/?view=grid&page=' . $this->input->get('page');
+            $data['listview'] = 'home/allobs/?view=list&page=' . $this->input->get('page');
+            $data['gridview'] = 'home/allobs/?view=grid&page=' . $this->input->get('page');
             $data['flist'] = $this->_API->getObituary(20, $page);
             $data['pages'] = $this->pagination('Home', 'allobs', $view, $page, 20, 'obituary');
         }
@@ -102,13 +106,13 @@ class Home extends MY_Controller {
     }
 
     function loadSingle($id, $pe) {
-        $this->_API->setVisitorCountAd($id);       
+        $this->_API->setVisitorCountAd($id);
         $data['ptitle'] = "Ads Single";
         $data['title'] = "Ads Highlight";
         $data['pe'] = $pe;
         $data['ver'] = $this->_API->checkArticle('normal_ad', $id);
-        $data['info'] = $this->_API->getSingleAd($id);   
-        $data['similar']=  $this->_API->getNormalAdRandom($data['info'][0]->category, 'normal_ad',7);
+        $data['info'] = $this->_API->getSingleAd($id);
+        $data['similar'] = $this->_API->getNormalAdRandom($data['info'][0]->category, 'normal_ad', 7);
         $data['views'] = $this->_API->getCountAd($id);
         $this->load->view('pages/singleview_ad', $data);
     }
@@ -124,7 +128,7 @@ class Home extends MY_Controller {
         $data['info'] = $this->_API->getSingleOb($id);
         $data['comments'] = $this->_API->getObComments($id);
         $data['views'] = $this->_API->getCount($id);
-        $data['similar']=  $this->_API->getNormalAdRandom(1, 'obituary',6);
+        $data['similar'] = $this->_API->getNormalAdRandom(1, 'obituary', 6);
 
         $this->TemplateBuilder($data);
     }
@@ -140,6 +144,7 @@ class Home extends MY_Controller {
         $data['content'] = 'pages/postad';
         $data['ptitle'] = "Post Ad";
         $data['title'] = "Post Ad";
+        $data['categories'] = $this->_API->getCategoriesSelection();
         $this->TemplateBuilder($data);
     }
 
@@ -151,10 +156,12 @@ class Home extends MY_Controller {
     }
 
     function postada() {
-         $this->isAuthorized();
+        $this->isAuthorized();
         $data['content'] = 'pages/postad_1';
         $data['ptitle'] = "Post Ad";
         $data['title'] = "Post Ad";
+        $data['categories'] = $this->_API->getCategoriesSelection();
+
         $this->TemplateBuilder($data);
     }
 
@@ -167,18 +174,20 @@ class Home extends MY_Controller {
     }
 
     function edits($id, $pe) {
-         $this->isAuthorized();
+        $this->isAuthorized();
         $data['content'] = 'pages/postad_edit';
         $data['ptitle'] = "Edit Ad";
         $data['title'] = "Edit Ad";
         $data['id'] = $id;
         $data['pe'] = $pe;
+        $data['categories'] = $this->_API->getCategoriesSelection();
+
         $data['info'] = $this->_API->getSingleAd($id);
         $this->TemplateBuilder($data);
     }
 
     function editpf($id, $pe) {
-         $this->isAuthorized();
+        $this->isAuthorized();
         $data['content'] = 'pages/obituary_edit';
         $data['ptitle'] = "Edit Obituary";
         $data['title'] = "Edit Obituary";
@@ -217,16 +226,16 @@ class Home extends MY_Controller {
         } else {
 
             $filedata = $this->upload->data();
-              $nego = $this->_POST('negotaible');
-        if(empty($nego)){
-            $nego ='no';
-        }
+            $nego = $this->_POST('negotaible');
+            if (empty($nego)) {
+                $nego = 'no';
+            }
 
             $addata = array(
                 'title' => $this->_POST('addtitle'),
                 'category' => $this->_POST('category'),
                 'price' => $this->_POST('price'),
-                'nego'=>$nego,
+                'nego' => $nego,
                 'description' => $this->_POST('description'),
                 'image_path' => 'uploads/' . $filedata['orig_name'],
                 'region' => $this->_POST('region'),
@@ -266,12 +275,11 @@ class Home extends MY_Controller {
             $filedata = $this->upload->data();
 
             $uid = 'USR' . date('YdmHis');
-            
-            $nego= $this->_POST('negotaible');
-      
+
+            $nego = $this->_POST('negotaible');
+
 
             $addata = array(
-             
                 'title' => $this->_POST('addtitle'),
                 'category' => $this->_POST('category'),
                 'price' => $this->_POST('price'),
@@ -282,7 +290,7 @@ class Home extends MY_Controller {
                 'date_posted' => date('d-m-Y'),
                 'user_id' => $uid,
             );
-           
+
 
 
 
@@ -377,7 +385,7 @@ class Home extends MY_Controller {
                 'more_info' => $this->_POST('more_info'),
                 'dob' => $this->_POST('dob'),
                 'dod' => $this->_POST('dod'),
-                'contact_persons'=>$this->_POST('con1').','.$this->_POST('con2'),
+                'contact_persons' => $this->_POST('con1') . ',' . $this->_POST('con2'),
                 'description' => $this->_POST('description'),
                 'image_path' => 'uploads/' . $filedata['orig_name'],
                 'date_posted' => date('d-m-Y'),
@@ -416,7 +424,7 @@ class Home extends MY_Controller {
                 'more_info' => $this->_POST('more_info'),
                 'dob' => $this->_POST('dob'),
                 'dod' => $this->_POST('dod'),
-                'contact_persons'=>$this->_POST('con1').','.$this->_POST('con2'),
+                'contact_persons' => $this->_POST('con1') . ',' . $this->_POST('con2'),
                 'description' => $this->_POST('description'),
                 'region' => $this->_POST('region'),
             );
@@ -453,7 +461,7 @@ class Home extends MY_Controller {
                     'category' => $this->_POST('category'),
                     'dob' => $this->_POST('dob'),
                     'dod' => $this->_POST('dod'),
-                    'contact_persons'=>$this->_POST('con1').','.$this->_POST('con2'),
+                    'contact_persons' => $this->_POST('con1') . ',' . $this->_POST('con2'),
                     'more_info' => $this->_POST('more_info'),
                     'description' => $this->_POST('description'),
                     'image_path' => 'uploads/' . $filedata['orig_name'],
@@ -482,20 +490,20 @@ class Home extends MY_Controller {
     public function adedit($id, $pe) {
 
         $nego = $this->_POST('negotaible');
-        if(empty($nego)){
-            $nego ='no';
+        if (empty($nego)) {
+            $nego = 'no';
         }
-        
+
         if ($_FILES['file']['tmp_name'] == '') {
             $addata = array(
                 'title' => $this->_POST('addtitle'),
                 'category' => $this->_POST('category'),
                 'price' => $this->_POST('price'),
-                'nego'=>$nego,
+                'nego' => $nego,
                 'description' => $this->_POST('description'),
                 'region' => $this->_POST('region'),
             );
-          
+
 
             $this->Update($id, 'normal_ad', $addata);
             redirect('home/edits/' . $id . '/' . $pe);
@@ -528,7 +536,7 @@ class Home extends MY_Controller {
                     'title' => $this->_POST('addtitle'),
                     'category' => $this->_POST('category'),
                     'price' => $this->_POST('price'),
-                    'nego'=>$nego,
+                    'nego' => $nego,
                     'description' => $this->_POST('description'),
                     'region' => $this->_POST('region'),
                     'image_path' => 'uploads/' . $filedata['orig_name'],
@@ -571,12 +579,11 @@ class Home extends MY_Controller {
                 'category' => $this->_POST('category'),
                 'dob' => $this->_POST('dob'),
                 'dod' => $this->_POST('dod'),
-                'contact_persons'=>$this->_POST('con1').','.$this->_POST('con2'),
+                'contact_persons' => $this->_POST('con1') . ',' . $this->_POST('con2'),
                 'description' => $this->_POST('description'),
                 'image_path' => 'uploads/' . $filedata['orig_name'],
                 'date_posted' => date('d-m-Y'),
-                                'more_info' => $this->_POST('more_info'),
-
+                'more_info' => $this->_POST('more_info'),
                 'region' => $this->_POST('region'),
                 'user_id' => $this->session->userdata('user_id'),
             );
@@ -601,7 +608,7 @@ class Home extends MY_Controller {
             'date' => date('d-m-Y H:i:s')
         );
         $this->saveData('obituary_comments', $data);
-         $this->session->set_flashdata('message_success', 'Your Condolence message has been received and is currently under review and will appear below shortly after the review');
+        $this->session->set_flashdata('message_success', 'Your Condolence message has been received and is currently under review and will appear below shortly after the review');
         redirect('home/loadProfile/' . $id . '/' . $pe);
     }
 
@@ -609,34 +616,30 @@ class Home extends MY_Controller {
 
         $name = $this->input->post('name');
         $phone = $this->input->post('phone');
-       
-        
+
+
         $new_name = explode(",", $name);
         $new_phone = explode(",", $phone);
-        for($i=0;$i<count($new_phone);$i++){
-         $data= array('name'=>$new_name[$i],'phone'=>$new_phone[$i]);
-          $this->saveData('phonebook', $data);   
+        for ($i = 0; $i < count($new_phone); $i++) {
+            $data = array('name' => $new_name[$i], 'phone' => $new_phone[$i]);
+            $this->saveData('phonebook', $data);
         }
         echo 'Success';
-         exit();
-        
-        
-     $inputJSON = file_get_contents('php://input');
-$input = json_decode($inputJSON, TRUE);
+        exit();
 
-$nameArray = array($input['name']);
-$phoneNumArray = array($input['phone']);
-for($i=0;i<count($nameArray);$i++){
-    $data = array(
-        'name' => $nameArray[$i],
-        'phone' => $phoneNumArray[$i],
-    );
-    $this->saveData('phonebook', $data);
-}
-        
-    
 
-     
+        $inputJSON = file_get_contents('php://input');
+        $input = json_decode($inputJSON, TRUE);
+
+        $nameArray = array($input['name']);
+        $phoneNumArray = array($input['phone']);
+        for ($i = 0; i < count($nameArray); $i++) {
+            $data = array(
+                'name' => $nameArray[$i],
+                'phone' => $phoneNumArray[$i],
+            );
+            $this->saveData('phonebook', $data);
+        }
     }
 
     function delob($id) {
@@ -654,7 +657,5 @@ for($i=0;i<count($nameArray);$i++){
     function adeactivate($id) {
         $this->Deactivate($id, 'normal_ad');
     }
-
-  
 
 }

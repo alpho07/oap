@@ -1,3 +1,11 @@
+<style>
+      .fix-search {
+    position: fixed;
+    top: 10px;
+   
+  }
+
+</style>
 <aside class="sidebar col-lg-2 col-md-2 col-sm-2  col-lg-pull-8 col-md-pull-8 col-sm-pull-8">
 
     <!-- Categories -->
@@ -52,6 +60,10 @@ $(function() {
             });
         }
     });
+    
+ 
+
+
     
 });
 </script>

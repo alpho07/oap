@@ -23,8 +23,8 @@
         <div class="category-heading">
             <span>LATEST ADS</span>
             <div class="category-buttons">
-                <a href="<?php echo base_url().'home/'.$gridview; ?>"><i class="icons icon-th-3"></i></a>
-                <a href="<?php echo base_url().'home/'.$listview; ?>"><i class="icons icon-th-list-4 active-button"></i></a>
+                <a href="<?php echo base_url().$gridview; ?>"><i class="icons icon-th-3"></i></a>
+                <a href="<?php echo base_url().$listview; ?>"><i class="icons icon-th-list-4 active-button"></i></a>
             </div>
         </div>
     </div>
