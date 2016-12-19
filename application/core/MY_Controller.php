@@ -124,7 +124,7 @@ class MY_Controller extends CI_Controller {
     }
     
     
-        function cpagination($controller, $method, $id, $view = 'grid', $per_page, $table,$category) {
+        function cpagination($controller, $method, $id, $view = 'grid', $per_page, $table, $category) {
             
         if ($this->input->get('view')) {
             $view = $this->input->get('view');
@@ -132,7 +132,7 @@ class MY_Controller extends CI_Controller {
             $view = 'grid';
         }
         $config['base_url'] = base_url() . '/' . $controller . '/' . $method .'/'.$category. "/?view=$view";
-        $config['total_rows'] = $this->_API->getTotalByCategory($table,$category);
+        $config['total_rows'] = $this->_API->getTotalByCategory($table, $category);
         $config['per_page'] = $per_page;
         $config['use_page_numbers'] = TRUE;
         $config['uri_segment'] = 3;
