@@ -142,6 +142,15 @@ class API extends CI_Model {
     function loadUnread($id) {
         return $this->db->where('id', $id)->get('inbox')->result();
     }
+    
+       function loadPopular() {
+        $string ='';
+        $query= $this->db->where('parent', 0)->get('categories')->result();
+        foreach ($query as $q):
+        $string .="<a href='". site_url('search/category/'.$q->id.'/'.$q->name)."'>".$q->name."</a>, ";
+        endforeach;
+        return rtrim($string, ", ");
+    }
 
     function getNormalAdsFeatured() {
         $categories = $this->getCategoriesSelection();
